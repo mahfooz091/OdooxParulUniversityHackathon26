@@ -1,122 +1,99 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { Suspense, lazy } from 'react';
+import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { useAuth } from './context/AuthContext.jsx';
+import Loader from './components/common/Loader.jsx';
 
-function App() {
-  const [count, setCount] = useState(0)
+const LandingPage = lazy(() => import('./pages/LandingPage.jsx'));
+const LoginPage = lazy(() => import('./pages/LoginPage.jsx'));
+const SignupPage = lazy(() => import('./pages/SignupPage.jsx'));
+const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage.jsx'));
+const DashboardPage = lazy(() => import('./pages/DashboardPage.jsx'));
+const CreateTripPage = lazy(() => import('./pages/CreateTripPage.jsx'));
+const MyTripsPage = lazy(() => import('./pages/MyTripsPage.jsx'));
+const ItineraryBuilderPage = lazy(() => import('./pages/ItineraryBuilderPage.jsx'));
+const ItineraryViewPage = lazy(() => import('./pages/ItineraryViewPage.jsx'));
+const CitySearchPage = lazy(() => import('./pages/CitySearchPage.jsx'));
+const ActivitySearchPage = lazy(() => import('./pages/ActivitySearchPage.jsx'));
+const BudgetPage = lazy(() => import('./pages/BudgetPage.jsx'));
+const PackingChecklistPage = lazy(() => import('./pages/PackingChecklistPage.jsx'));
+const CommunityPage = lazy(() => import('./pages/CommunityPage.jsx'));
+const ProfilePage = lazy(() => import('./pages/ProfilePage.jsx'));
+const TripNotesPage = lazy(() => import('./pages/TripNotesPage.jsx'));
+const AdminDashboardPage = lazy(() => import('./pages/AdminDashboardPage.jsx'));
+const PublicItineraryPage = lazy(() => import('./pages/PublicItineraryPage.jsx'));
+const MainLayout = lazy(() => import('./components/layout/MainLayout.jsx'));
 
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+function HomeRoute() {
+  const { user, loading } = useAuth();
+  if (loading) return <Loader />;
+  if (user) return <Navigate to="/dashboard" replace />;
+  return <LandingPage />;
 }
 
-export default App
+function CatchAllRoute() {
+  const { user, loading } = useAuth();
+  if (loading) return <Loader />;
+  if (user) return <Navigate to="/dashboard" replace />;
+  return <Navigate to="/" replace />;
+}
+
+function PrivateRoute() {
+  const { user, loading } = useAuth();
+  if (loading) return <Loader />;
+  if (!user) return <Navigate to="/login" replace />;
+  return <Outlet />;
+}
+
+function AdminGate() {
+  const { user } = useAuth();
+  if (user?.role !== 'admin') return <Navigate to="/dashboard" replace />;
+  return <Outlet />;
+}
+
+function GuestRoute() {
+  const { user, loading } = useAuth();
+  if (loading) return <Loader />;
+  if (user) return <Navigate to="/dashboard" replace />;
+  return <Outlet />;
+}
+
+export default function App() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <Routes>
+        <Route path="/share/:slug" element={<PublicItineraryPage />} />
+
+        <Route path="/" element={<HomeRoute />} />
+
+        <Route element={<GuestRoute />}>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+        </Route>
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+
+        <Route element={<PrivateRoute />}>
+          <Route element={<MainLayout />}>
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/trips/new" element={<CreateTripPage />} />
+            <Route path="/trips" element={<MyTripsPage />} />
+            <Route path="/trips/:id/builder" element={<ItineraryBuilderPage />} />
+            <Route path="/trips/:id/view" element={<ItineraryViewPage />} />
+            <Route path="/trips/:id/budget" element={<BudgetPage />} />
+            <Route path="/trips/:id/checklist" element={<PackingChecklistPage />} />
+            <Route path="/trips/:id/notes" element={<TripNotesPage />} />
+            <Route path="/cities" element={<CitySearchPage />} />
+            <Route path="/activities" element={<ActivitySearchPage />} />
+            <Route path="/community" element={<CommunityPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+
+            <Route element={<AdminGate />}>
+              <Route path="/admin" element={<AdminDashboardPage />} />
+            </Route>
+          </Route>
+        </Route>
+
+        <Route path="*" element={<CatchAllRoute />} />
+      </Routes>
+    </Suspense>
+  );
+}
