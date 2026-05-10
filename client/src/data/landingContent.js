@@ -1,8 +1,8 @@
 /** Royalty-free Unsplash travel imagery */
 export const UNSPLASH = {
-  hero: 'https://images.unsplash.com/photo-1488085061387-422e29abf400?auto=format&fit=crop&w=1400&q=80',
-  auth: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1600&q=80',
-  split: 'https://images.unsplash.com/photo-1506905925346-b21b4d32df4c?auto=format&fit=crop&w=1200&q=80',
+  hero: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1400&q=80',
+  auth: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1600&q=80',
+  split: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=1200&q=80',
 };
 
 export const FALLBACK_DESTINATIONS = [

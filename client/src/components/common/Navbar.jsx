@@ -11,6 +11,21 @@ export default function Navbar({ variant = 'app', onMenuClick }) {
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [notifications, setNotifications] = useState([
+    { id: 1, text: "Welcome to Traveloop!", time: "Just now" }
+  ]);
+
+  useEffect(() => {
+    // Simulate realtime notifications
+    const timer = setInterval(() => {
+      setNotifications(prev => [
+        { id: Date.now(), text: "Someone liked your trip!", time: "Just now" },
+        ...prev.map(n => ({...n, time: "A while ago"})).slice(0, 4)
+      ]);
+    }, 45000); // New notification every 45 seconds
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -40,7 +55,7 @@ export default function Navbar({ variant = 'app', onMenuClick }) {
         >
           <Menu className="w-6 h-6" />
         </button>
-        <Link to="/dashboard" className="flex items-center gap-2 text-white">
+        <Link to="/dashboard" className={`flex items-center gap-2 text-white ${variant === 'app' ? 'lg:hidden' : ''}`}>
           <Logo showText />
         </Link>
         {variant === 'app' && (
@@ -67,17 +82,35 @@ export default function Navbar({ variant = 'app', onMenuClick }) {
               <Search className="w-6 h-6" />
             </button>
             <div className="flex items-center gap-2 ml-auto">
-              <button
-                type="button"
-                className="relative p-2 rounded-xl hover:bg-white/10 text-white min-w-[44px] min-h-[44px]"
-              >
-                <Bell className="w-6 h-6" />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-accent rounded-full" />
-              </button>
               <div className="relative">
                 <button
                   type="button"
-                  onClick={() => setOpen(!open)}
+                  onClick={() => { setShowNotifications(!showNotifications); setOpen(false); }}
+                  className="relative p-2 rounded-xl hover:bg-white/10 text-white min-w-[44px] min-h-[44px]"
+                >
+                  <Bell className="w-6 h-6" />
+                  {notifications.length > 0 && <span className="absolute top-1 right-1 w-2 h-2 bg-accent rounded-full animate-pulse" />}
+                </button>
+                {showNotifications && (
+                  <div className="absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-lg border border-slate-100 py-2 z-50 max-h-80 overflow-y-auto">
+                    <div className="px-4 py-2 border-b border-slate-100 font-bold text-slate-800">Notifications</div>
+                    {notifications.length === 0 ? (
+                      <div className="px-4 py-3 text-sm text-slate-500">No new notifications</div>
+                    ) : (
+                      notifications.map(n => (
+                        <div key={n.id} className="px-4 py-3 border-b border-slate-50 hover:bg-slate-50">
+                          <p className="text-sm text-slate-800">{n.text}</p>
+                          <p className="text-xs text-muted mt-1">{n.time}</p>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                )}
+              </div>
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => { setOpen(!open); setShowNotifications(false); }}
                   className="flex items-center gap-2 p-1 rounded-xl hover:bg-white/10"
                 >
                   <Avatar src={user?.photo} name={user?.name} />

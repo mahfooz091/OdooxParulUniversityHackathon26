@@ -3,6 +3,8 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Input from '../common/Input.jsx';
 import Button from '../common/Button.jsx';
+import Modal from '../common/Modal.jsx';
+import CitySearch from '../search/CitySearch.jsx';
 import { uploadImage } from '../../services/uploadService.js';
 
 export default function TripForm({ initial, onSubmit, submitting }) {
@@ -17,6 +19,8 @@ export default function TripForm({ initial, onSubmit, submitting }) {
   const [coverPhoto, setCoverPhoto] = useState(initial?.coverPhoto || '');
   const [isPublic, setIsPublic] = useState(Boolean(initial?.isPublic));
   const [destinationCityId, setDestinationCityId] = useState('');
+  const [destinationCityName, setDestinationCityName] = useState('');
+  const [showCityModal, setShowCityModal] = useState(false);
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -29,6 +33,7 @@ export default function TripForm({ initial, onSubmit, submitting }) {
         coverPhoto,
         isPublic,
         destinationCityId,
+        destinationCityName,
       };
       localStorage.setItem('traveloop-trip-draft', JSON.stringify(draft));
     }, 30000);
@@ -47,6 +52,7 @@ export default function TripForm({ initial, onSubmit, submitting }) {
         if (d.coverPhoto) setCoverPhoto(d.coverPhoto);
         if (typeof d.isPublic === 'boolean') setIsPublic(d.isPublic);
         if (d.destinationCityId) setDestinationCityId(d.destinationCityId);
+        if (d.destinationCityName) setDestinationCityName(d.destinationCityName);
       } catch {
         /* ignore */
       }
@@ -92,15 +98,17 @@ export default function TripForm({ initial, onSubmit, submitting }) {
       />
       <div>
         <label className="block text-sm font-medium text-slate-700 mb-1">
-          Destination (city search id)
+          Destination
         </label>
-        <input
-          type="text"
-          placeholder="Paste city ID from Explore Cities or pick later in builder"
-          className="w-full border border-slate-200 rounded-xl px-4 py-3"
-          value={destinationCityId}
-          onChange={(e) => setDestinationCityId(e.target.value)}
-        />
+        <button
+          type="button"
+          className="w-full border border-slate-200 rounded-xl px-4 py-3 text-left flex justify-between items-center"
+          onClick={() => setShowCityModal(true)}
+        >
+          <span className={destinationCityName ? "text-dark" : "text-slate-400"}>
+            {destinationCityName || 'Select a destination city'}
+          </span>
+        </button>
         {errors.destinationCityId && (
           <p className="text-red-500 text-xs mt-1">{errors.destinationCityId}</p>
         )}
@@ -155,6 +163,21 @@ export default function TripForm({ initial, onSubmit, submitting }) {
       <Button type="submit" className="w-full py-3" disabled={submitting}>
         {submitting ? 'Saving…' : 'Save & Continue to Itinerary'}
       </Button>
+
+      <Modal
+        open={showCityModal}
+        onClose={() => setShowCityModal(false)}
+        title="Select Destination"
+      >
+        <CitySearch
+          mode="modal"
+          onPickCity={(city) => {
+            setDestinationCityId(city._id);
+            setDestinationCityName(city.name);
+            setShowCityModal(false);
+          }}
+        />
+      </Modal>
     </form>
   );
 }

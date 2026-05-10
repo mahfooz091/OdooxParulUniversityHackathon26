@@ -45,7 +45,7 @@ export default function Sidebar({ mobileOpen, onClose }) {
         />
       )}
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-50 flex flex-col bg-white border-r border-slate-100 transition-all duration-200 ease-in-out
+        className={`fixed lg:sticky lg:top-0 lg:h-screen inset-y-0 left-0 z-50 flex flex-col bg-white border-r border-slate-100 transition-all duration-200 ease-in-out
         ${mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         ${collapsed ? 'w-16' : 'w-60'}`}
       >

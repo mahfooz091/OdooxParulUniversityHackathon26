@@ -11,7 +11,7 @@ export default function WelcomeBanner({ name }) {
     >
       <div>
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
-          Welcome back, {name?.split(' ')[0] || 'Traveler'}! 🌍
+          Welcome back, {name?.split(' ')[0] || 'Traveler'}!
         </h1>
         <p className="mt-2 text-slate-800/90 leading-relaxed">
           Plan routes, track budgets, and share adventures — all in one loop.

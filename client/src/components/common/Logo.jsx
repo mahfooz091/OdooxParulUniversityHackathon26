@@ -7,7 +7,7 @@ export default function Logo({ size = 'md', showText = true, variant = 'dark' })
 
   return (
     <div className="flex items-center gap-2.5">
-      <img src="/favicon.svg" alt="Traveloop" className={`${dim} shrink-0 rounded-xl shadow-sm`} />
+      <img src="/logo.png" alt="Traveloop" className={`${dim} shrink-0 rounded-xl shadow-sm`} />
       {showText && <span className={textClass}>Traveloop</span>}
     </div>
   );
