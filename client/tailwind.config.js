@@ -13,6 +13,15 @@ export default {
         emerald: { DEFAULT: '#10B981', soft: '#D1FAE5' },
         surface: '#F8FAFC',
         glass: { border: 'rgba(255,255,255,0.12)', fill: 'rgba(255,255,255,0.06)' },
+        clay: {
+          bg: '#F3F6FA',
+          card: '#FFFFFF',
+          input: '#EEF2F7',
+          mint: '#E6F7F2',
+          sky: '#E8F2FC',
+          lavender: '#F1ECFD',
+          peach: '#FDF2EB',
+        },
         muted: '#94A3B8',
         error: '#EF4444',
         success: '#22C55E',
@@ -35,6 +44,18 @@ export default {
         'glow-sm': '0 0 24px -8px rgba(6, 182, 212, 0.45)',
         glass: '0 8px 32px rgba(11, 20, 38, 0.08)',
         card: '0 4px 6px -1px rgba(11, 20, 38, 0.06), 0 2px 4px -2px rgba(11, 20, 38, 0.04)',
+        'clay-card':
+          '16px 16px 36px rgba(180, 195, 215, 0.45), -12px -12px 28px rgba(255, 255, 255, 0.95), inset 2px 2px 4px rgba(255, 255, 255, 0.9), inset -2px -2px 4px rgba(180, 195, 215, 0.2)',
+        'clay-card-sm':
+          '10px 10px 22px rgba(180, 195, 215, 0.35), -8px -8px 18px rgba(255, 255, 255, 0.95), inset 1px 1px 3px rgba(255, 255, 255, 0.8), inset -1px -1px 3px rgba(180, 195, 215, 0.15)',
+        'clay-btn':
+          '0 10px 22px -3px rgba(13, 148, 136, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.5), inset 0 -3px 4px rgba(15, 118, 110, 0.35)',
+        'clay-btn-secondary':
+          '8px 8px 18px rgba(180, 195, 215, 0.35), -6px -6px 16px rgba(255, 255, 255, 0.95), inset 2px 2px 4px rgba(255, 255, 255, 0.9), inset -2px -2px 4px rgba(180, 195, 215, 0.2)',
+        'clay-inset':
+          'inset 3px 3px 6px rgba(180, 195, 215, 0.35), inset -2px -2px 5px rgba(255, 255, 255, 0.95)',
+        'clay-inset-focus':
+          'inset 2px 2px 5px rgba(13, 148, 136, 0.15), inset -2px -2px 4px rgba(255, 255, 255, 0.95), 0 0 0 3px rgba(20, 184, 166, 0.3)',
       },
       animation: {
         float: 'float 6s ease-in-out infinite',

@@ -1,18 +1,15 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Eye, EyeOff, Loader2 } from 'lucide-react';
-import { motion } from 'framer-motion';
-import Input from '../common/Input.jsx';
-import Button from '../common/Button.jsx';
+import ClayInput from './ClayInput.jsx';
+import ClayButton from './ClayButton.jsx';
+import ClayAlert from './ClayAlert.jsx';
 import { validateLogin } from '../../utils/validators.js';
-import { cn } from '../../utils/helpers.js';
 
-export default function LoginForm({ onSubmit, loading = false, variant = 'default' }) {
-  const [email, setEmail] = useState('');
+export default function LoginForm({ onSubmit, loading = false, serverError = '' }) {
+  const [email, setEmail] = useState(() => localStorage.getItem('colombiator_saved_email') || '');
   const [password, setPassword] = useState('');
-  const [show, setShow] = useState(false);
+  const [rememberMe, setRememberMe] = useState(() => Boolean(localStorage.getItem('colombiator_saved_email')));
   const [errors, setErrors] = useState({});
-  const glass = variant === 'glass';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,27 +18,27 @@ export default function LoginForm({ onSubmit, loading = false, variant = 'defaul
     const trimmedEmail = email.trim();
     const v = validateLogin({ email: trimmedEmail, password });
     setErrors(v);
-    if (Object.keys(v).length) return;
+    if (Object.keys(v).length > 0) return;
+
+    if (rememberMe) {
+      localStorage.setItem('colombiator_saved_email', trimmedEmail);
+    } else {
+      localStorage.removeItem('colombiator_saved_email');
+    }
 
     await onSubmit({ email: trimmedEmail, password });
   };
 
   return (
-    <motion.form
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      onSubmit={handleSubmit}
-      className="space-y-4"
-      noValidate
-    >
-      <Input
-        variant={glass ? 'glass' : 'default'}
-        label="Email address"
+    <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+      {serverError && <ClayAlert message={serverError} type="error" />}
+
+      <ClayInput
+        label="Email Address"
         name="email"
         type="email"
         autoComplete="email"
-        placeholder="you@example.com"
+        placeholder="alex.traveler@example.com"
         value={email}
         onChange={(e) => {
           setEmail(e.target.value);
@@ -52,73 +49,63 @@ export default function LoginForm({ onSubmit, loading = false, variant = 'defaul
       />
 
       <div>
-        <div className="flex items-center justify-between mb-1.5">
-          <label
-            className={cn('block text-sm font-medium', glass ? 'text-slate-200' : 'text-slate-700')}
-          >
-            Password
-          </label>
-          <Link
-            to="/forgot-password"
-            className="text-xs font-medium text-primary-dark hover:underline"
-          >
-            Forgot password?
-          </Link>
-        </div>
-        <div className="relative">
-          <input
-            type={show ? 'text' : 'password'}
-            autoComplete="current-password"
-            placeholder="••••••••"
-            disabled={loading}
-            className={cn(
-              'w-full rounded-xl px-4 py-3 pr-12 transition-all outline-none',
-              glass
-                ? 'border border-white/20 bg-white/10 text-white placeholder:text-slate-400 focus:border-teal-400/60 focus:ring-2 focus:ring-teal-400/30'
-                : 'border border-slate-200 bg-white text-dark focus:border-primary focus:ring-2 focus:ring-primary/20',
-              errors.password ? 'border-error focus:border-error focus:ring-error/20' : '',
-              loading ? 'opacity-60 cursor-not-allowed' : ''
-            )}
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              if (errors.password) setErrors((prev) => ({ ...prev, password: undefined }));
-            }}
-          />
-          <button
-            type="button"
-            aria-label={show ? 'Hide password' : 'Show password'}
-            className={cn(
-              'absolute right-3 top-1/2 -translate-y-1/2 min-w-[40px] min-h-[40px] flex items-center justify-center rounded-lg transition-colors',
-              glass ? 'text-slate-300 hover:text-white' : 'text-slate-400 hover:text-slate-600'
-            )}
-            onClick={() => setShow(!show)}
-          >
-            {show ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-          </button>
-        </div>
-        {errors.password && (
-          <p className={cn('text-xs mt-1.5 font-medium', glass ? 'text-red-300' : 'text-error')}>
-            {errors.password}
-          </p>
-        )}
+        <ClayInput
+          label="Password"
+          name="password"
+          type="password"
+          autoComplete="current-password"
+          placeholder="••••••••"
+          value={password}
+          onChange={(e) => {
+            setPassword(e.target.value);
+            if (errors.password) setErrors((prev) => ({ ...prev, password: undefined }));
+          }}
+          error={errors.password}
+          disabled={loading}
+        />
       </div>
 
-      <Button
-        type="submit"
-        variant={glass ? 'premium' : 'primary'}
-        disabled={loading}
-        className="w-full py-3.5 font-heading text-base font-semibold shadow-sm mt-2 flex items-center justify-center gap-2"
-      >
-        {loading ? (
-          <>
-            <Loader2 className="w-5 h-5 animate-spin" />
-            <span>Signing in…</span>
-          </>
-        ) : (
-          <span>Sign In</span>
-        )}
-      </Button>
-    </motion.form>
+      <div className="flex items-center justify-between text-sm pt-1">
+        <label className="flex items-center gap-2 cursor-pointer select-none text-slate-600 font-medium">
+          <input
+            type="checkbox"
+            checked={rememberMe}
+            onChange={(e) => setRememberMe(e.target.checked)}
+            disabled={loading}
+            className="w-4 h-4 rounded-md text-teal-600 focus:ring-teal-500 accent-teal-600 border-slate-300"
+          />
+          <span>Remember me</span>
+        </label>
+
+        <Link
+          to="/forgot-password"
+          className="text-teal-700 hover:text-teal-800 font-semibold hover:underline"
+        >
+          Forgot password?
+        </Link>
+      </div>
+
+      <div className="pt-2">
+        <ClayButton
+          type="submit"
+          variant="primary"
+          loading={loading}
+          disabled={loading}
+          className="w-full text-lg shadow-clay-btn"
+        >
+          Sign In
+        </ClayButton>
+      </div>
+
+      <div className="pt-3 text-center text-sm text-slate-500">
+        Don&apos;t have an account yet?{' '}
+        <Link
+          to="/signup"
+          className="font-bold text-teal-600 hover:text-teal-700 hover:underline"
+        >
+          Start your adventure
+        </Link>
+      </div>
+    </form>
   );
 }

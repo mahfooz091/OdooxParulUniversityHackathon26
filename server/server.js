@@ -56,53 +56,75 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Ensure requests routed to the serverless function match /api routes
-app.use((req, res, next) => {
-  if (!req.url.startsWith('/api') && !req.url.startsWith('/uploads')) {
-    req.url = '/api' + (req.url.startsWith('/') ? req.url : '/' + req.url);
-  }
-  next();
-});
-
+// Fast health checks without database dependency
 app.get(['/api/health', '/health'], (req, res) => {
-  res.json({ success: true, status: 'ok', timestamp: new Date().toISOString() });
+  res.json({
+    success: true,
+    status: 'ok',
+    service: 'colombiator-api',
+    timestamp: new Date().toISOString(),
+  });
 });
 
-app.use('/api/auth', authRoutes);
-app.use('/api/trips', tripRoutes);
-app.use('/api/cities', cityRoutes);
-app.use('/api/activities', activityRoutes);
-app.use('/api/budget', budgetRoutes);
-app.use('/api/checklist', checklistRoutes);
-app.use('/api/notes', notesRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/community', communityRoutes);
-app.use('/api/upload', uploadRoutes);
+// Database connection middleware for all functional API routes
+app.use(async (req, res, next) => {
+  if (req.path === '/health' || req.path === '/api/health' || req.url === '/health' || req.url === '/api/health') {
+    return next();
+  }
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error('Database connection error in request middleware:', err.message);
+    return res.status(500).json({
+      success: false,
+      message: 'Database connection failed. Please ensure MONGO_URI is properly configured.',
+      error: process.env.NODE_ENV === 'development' ? err.message : undefined,
+    });
+  }
+});
 
-app.use('/api/*', (req, res) => {
+// Mount routes on both /api/<prefix> and /<prefix> to support both direct and rewritten requests
+const mountRoute = (prefix, router) => {
+  app.use(`/api/${prefix}`, router);
+  app.use(`/${prefix}`, router);
+};
+
+mountRoute('auth', authRoutes);
+mountRoute('trips', tripRoutes);
+mountRoute('cities', cityRoutes);
+mountRoute('activities', activityRoutes);
+mountRoute('budget', budgetRoutes);
+mountRoute('checklist', checklistRoutes);
+mountRoute('notes', notesRoutes);
+mountRoute('users', userRoutes);
+mountRoute('admin', adminRoutes);
+mountRoute('community', communityRoutes);
+mountRoute('upload', uploadRoutes);
+
+app.use(['/api/*', '/*'], (req, res) => {
   res.status(404).json({ success: false, message: 'API route not found' });
 });
 
 app.use(errorHandler);
 
-// Check if server.js is executed directly as standalone script
+// Check if server.js is executed directly as standalone script or service process
 const isDirectRun =
-  process.argv[1] &&
-  (process.argv[1].endsWith('server.js') ||
-    process.argv[1].endsWith('nodemon') ||
-    process.argv[1].includes('server.js'));
+  !process.env.VERCEL_SERVERLESS &&
+  (Boolean(process.env.PORT) ||
+    (process.argv[1] &&
+      (process.argv[1].endsWith('server.js') ||
+        process.argv[1].endsWith('nodemon') ||
+        process.argv[1].includes('server.js'))));
 
 if (isDirectRun) {
-  try {
-    await connectDB();
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-  } catch (err) {
-    console.error('Fatal: Could not connect to database on startup:', err.message);
-    process.exit(1);
-  }
+  connectDB()
+    .then(() => console.log('MongoDB connected successfully'))
+    .catch((err) => console.warn('Initial MongoDB connection deferred:', err.message));
+
+  app.listen(PORT, () => {
+    console.log(`Colombiator server listening on port ${PORT}`);
+  });
 }
 
 export default app;

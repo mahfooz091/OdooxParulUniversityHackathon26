@@ -1,80 +1,93 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { motion } from 'framer-motion';
-import { ArrowLeft } from 'lucide-react';
-import Input from '../components/common/Input.jsx';
-import Button from '../components/common/Button.jsx';
-import Logo from '../components/common/Logo.jsx';
+import ClayAuthLayout from '../components/auth/ClayAuthLayout.jsx';
+import ClayCard from '../components/auth/ClayCard.jsx';
+import ClayInput from '../components/auth/ClayInput.jsx';
+import ClayButton from '../components/auth/ClayButton.jsx';
 import * as authService from '../services/authService.js';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
+  const [sent, setSent] = useState(false);
 
   const submit = async (e) => {
     e.preventDefault();
+    if (!email.trim() || loading) return;
     setLoading(true);
     try {
-      await authService.forgotPassword(email);
+      await authService.forgotPassword(email.trim());
+      setSent(true);
       toast.success('If an account exists, instructions have been sent.');
     } catch (err) {
-      toast.error(err.friendlyMessage || 'Request failed');
+      toast.error(err.friendlyMessage || 'Unable to send instructions. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col items-center justify-center bg-navy px-4 py-16">
-      <div
-        className="pointer-events-none absolute inset-0 opacity-50"
-        style={{
-          backgroundImage: `radial-gradient(ellipse 80% 60% at 50% 0%, rgba(6,182,212,0.3), transparent),
-            radial-gradient(circle at 0% 100%, rgba(20,184,166,0.2), transparent 50%)`,
-        }}
-      />
-      <Link
-        to="/login"
-        className="absolute left-4 top-4 z-10 inline-flex items-center gap-2 text-sm text-teal-200 hover:text-white md:left-8 md:top-8"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        Back to login
-      </Link>
-      <motion.form
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        onSubmit={submit}
-        className="relative z-10 w-full max-w-md rounded-3xl border border-white/15 bg-white/10 p-8 shadow-2xl backdrop-blur-2xl md:p-10 space-y-6"
-      >
-        <div className="text-center">
-          <div className="flex justify-center">
-            <Logo showText variant="light" />
+    <ClayAuthLayout
+      badgeText="Account Recovery"
+      title="Reset your password"
+      subtitle="Enter your email to receive recovery instructions."
+    >
+      <ClayCard className="w-full">
+        {sent ? (
+          <div className="text-center py-4 space-y-4">
+            <div className="w-16 h-16 mx-auto rounded-full bg-teal-50 flex items-center justify-center text-teal-600 shadow-clay-card-sm text-2xl font-bold">
+              ✓
+            </div>
+            <h3 className="font-heading text-xl font-bold text-slate-800">Check your inbox</h3>
+            <p className="text-sm text-slate-500">
+              If an account with <strong>{email}</strong> exists, password reset instructions have been sent.
+            </p>
+            <div className="pt-2">
+              <Link
+                to="/login"
+                className="inline-block font-semibold text-teal-600 hover:text-teal-700 hover:underline text-sm"
+              >
+                Back to sign in
+              </Link>
+            </div>
           </div>
-          <h1 className="mt-6 font-display text-2xl font-semibold text-white md:text-3xl">
-            Reset your password
-          </h1>
-          <p className="mt-2 text-sm text-slate-400">
-            We&apos;ll email you a link if your account exists.
-          </p>
-        </div>
-        <Input
-          variant="glass"
-          label="Email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <Button type="submit" variant="premium" className="w-full py-3.5 font-heading" disabled={loading}>
-          {loading ? 'Sending…' : 'Send reset link'}
-        </Button>
-        <p className="text-center text-sm text-slate-400">
-          <Link to="/login" className="font-semibold text-teal-300 hover:text-teal-200">
-            Back to login
-          </Link>
-        </p>
-      </motion.form>
-    </div>
+        ) : (
+          <form onSubmit={submit} className="space-y-5" noValidate>
+            <ClayInput
+              label="Email Address"
+              name="email"
+              type="email"
+              autoComplete="email"
+              placeholder="alex.traveler@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              disabled={loading}
+            />
+
+            <ClayButton
+              type="submit"
+              variant="primary"
+              loading={loading}
+              disabled={loading}
+              className="w-full text-lg shadow-clay-btn"
+            >
+              Send Reset Link
+            </ClayButton>
+
+            <div className="pt-2 text-center text-sm text-slate-500">
+              Remembered your credentials?{' '}
+              <Link
+                to="/login"
+                className="font-bold text-teal-600 hover:text-teal-700 hover:underline"
+              >
+                Sign in
+              </Link>
+            </div>
+          </form>
+        )}
+      </ClayCard>
+    </ClayAuthLayout>
   );
 }
