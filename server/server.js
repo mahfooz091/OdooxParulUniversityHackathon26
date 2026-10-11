@@ -93,7 +93,7 @@ const isDirectRun =
     process.argv[1].endsWith('nodemon') ||
     process.argv[1].includes('server.js'));
 
-if (isDirectRun && !process.env.VERCEL) {
+if (isDirectRun) {
   try {
     await connectDB();
     app.listen(PORT, () => {
