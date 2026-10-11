@@ -24,6 +24,8 @@ api.interceptors.response.use(
     if (!msg) {
       if (typeof error.response?.data === 'string' && error.response.data.includes('FUNCTION_INVOCATION_FAILED')) {
         msg = 'The authentication service is temporarily unavailable. Please try again shortly.';
+      } else if (error.response?.status === 503) {
+        msg = error.response?.data?.message || 'Database connection error. Please verify MONGO_URI in project settings.';
       } else if (error.response?.status === 500) {
         msg = 'Unable to reach the server. Please try again in a few moments.';
       } else if (error.response?.status === 401) {

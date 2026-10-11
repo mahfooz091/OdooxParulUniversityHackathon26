@@ -56,8 +56,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Fast health checks without database dependency
-app.get(['/api/health', '/health'], (req, res) => {
+// Fast health and root checks without database dependency
+app.get(['/api/health', '/health', '/api', '/api/index.js'], (req, res) => {
   res.json({
     success: true,
     status: 'ok',
@@ -68,7 +68,15 @@ app.get(['/api/health', '/health'], (req, res) => {
 
 // Database connection middleware for all functional API routes
 app.use(async (req, res, next) => {
-  if (req.path === '/health' || req.path === '/api/health' || req.url === '/health' || req.url === '/api/health') {
+  const isHealthOrRoot =
+    req.path === '/' ||
+    req.path === '/api' ||
+    req.path === '/api/index.js' ||
+    req.path === '/health' ||
+    req.path === '/api/health' ||
+    req.path.endsWith('/health');
+
+  if (isHealthOrRoot) {
     return next();
   }
   try {
@@ -76,7 +84,7 @@ app.use(async (req, res, next) => {
     next();
   } catch (err) {
     console.error('Database connection error in request middleware:', err.message);
-    return res.status(500).json({
+    return res.status(503).json({
       success: false,
       message: 'Database connection failed. Please ensure MONGO_URI is properly configured.',
       error: process.env.NODE_ENV === 'development' ? err.message : undefined,
@@ -108,14 +116,14 @@ app.use(['/api/*', '/*'], (req, res) => {
 
 app.use(errorHandler);
 
-// Check if server.js is executed directly as standalone script or service process
+// Check if server.js is executed directly as standalone script (local dev / Docker)
 const isDirectRun =
-  !process.env.VERCEL_SERVERLESS &&
-  (Boolean(process.env.PORT) ||
-    (process.argv[1] &&
-      (process.argv[1].endsWith('server.js') ||
-        process.argv[1].endsWith('nodemon') ||
-        process.argv[1].includes('server.js'))));
+  !process.env.VERCEL &&
+  !process.env.AWS_LAMBDA_FUNCTION_NAME &&
+  (process.argv[1] &&
+    (process.argv[1].endsWith('server.js') ||
+      process.argv[1].endsWith('nodemon') ||
+      process.argv[1].includes('server.js')));
 
 if (isDirectRun) {
   connectDB()
