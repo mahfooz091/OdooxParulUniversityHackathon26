@@ -116,10 +116,9 @@ app.use(['/api/*', '/*'], (req, res) => {
 
 app.use(errorHandler);
 
-// Check if server.js is executed directly as standalone script (local dev / Docker)
+// Check if server.js is executed directly as standalone script or Vercel service
 const isDirectRun =
-  !process.env.VERCEL &&
-  !process.env.AWS_LAMBDA_FUNCTION_NAME &&
+  Boolean(process.env.PORT) ||
   (process.argv[1] &&
     (process.argv[1].endsWith('server.js') ||
       process.argv[1].endsWith('nodemon') ||
