@@ -46,51 +46,51 @@ export const FALLBACK_DESTINATIONS = [
 
 export const FEATURES = [
   {
-    title: 'AI Trip Planning',
-    desc: 'Itineraries tailored to your style, pace, and passions.',
-    icon: 'sparkles',
-  },
-  {
-    title: 'Live Listings',
-    desc: 'Discover curated stays and experiences updated in real time.',
-    icon: 'globe',
-  },
-  {
-    title: 'Smart Budgeting',
-    desc: 'Optimize spend with predictive costs and daily limits.',
-    icon: 'wallet',
-  },
-  {
-    title: 'Collaboration',
-    desc: 'Plan together with shared trips and comments.',
+    title: 'Collaborative Trip Planning',
+    desc: 'Plan together with friends, shared stops, and synchronized travel details.',
     icon: 'users',
   },
   {
-    title: 'Travel Maps',
-    desc: 'Visualize routes with interactive maps and stops.',
+    title: 'Smart Itinerary Builder',
+    desc: 'Build multi-day, multi-stop itineraries with day-by-day activity tracking.',
+    icon: 'sparkles',
+  },
+  {
+    title: 'Travel Expense Tracking',
+    desc: 'Track transport, stays, dining, and activities against planned budget caps.',
+    icon: 'wallet',
+  },
+  {
+    title: 'Interactive Travel Maps',
+    desc: 'Visualize route flow, waypoint coordinates, and stops with interactive maps.',
     icon: 'map',
   },
   {
-    title: 'Weather Insights',
-    desc: 'Pack smarter with climate-aware suggestions.',
-    icon: 'cloud',
+    title: 'Destination Discovery',
+    desc: 'Explore curated global cities filtered by region, cost rating, and popularity.',
+    icon: 'globe',
   },
   {
-    title: 'Secure Bookings',
-    desc: 'Keep confirmations and documents in one vault.',
+    title: 'Packing Checklists',
+    desc: 'Categorized packing organizers designed to keep gear ready offline.',
     icon: 'shield',
   },
   {
-    title: 'Personalized Picks',
-    desc: 'Recommendations that learn from every journey.',
+    title: 'Public Community Routes',
+    desc: 'Clone public itineraries from fellow explorers into your own planner in one click.',
     icon: 'heart',
+  },
+  {
+    title: 'Trip Notes & Vault',
+    desc: 'Keep flight details, confirmation numbers, and personal travel notes in one place.',
+    icon: 'cloud',
   },
 ];
 
 export const TESTIMONIALS = [
   {
     quote:
-      'Traveloop turned our honeymoon from stressful spreadsheets into a cinematic itinerary. Pure magic.',
+      'Colombiator turned our honeymoon from stressful spreadsheets into a cinematic itinerary. Pure magic.',
     name: 'Elena Marchetti',
     role: 'Product Designer · Milan',
     avatar:
@@ -99,7 +99,7 @@ export const TESTIMONIALS = [
   },
   {
     quote:
-      'The AI suggestions felt like a concierge who actually knows my budget. I use it for every work trip now.',
+      'The multi-stop planner and budget tracking kept our group of six completely on budget across four countries.',
     name: 'James Chen',
     role: 'Founder · Singapore',
     avatar:
@@ -108,7 +108,7 @@ export const TESTIMONIALS = [
   },
   {
     quote:
-      'Finally a planner that looks premium and works offline-capable for notes and checklists.',
+      'Finally a travel planner that looks modern, handles split expenses effortlessly, and lets you clone public routes.',
     name: 'Sofia Andersson',
     role: 'Travel Writer · Stockholm',
     avatar:
@@ -129,8 +129,8 @@ export const GALLERY_IMAGES = [
 ];
 
 export const STATS = [
-  { value: 50, suffix: 'K+', label: 'Travelers' },
-  { value: 150, suffix: '+', label: 'Destinations' },
+  { value: 50, suffix: 'K+', label: 'Explorers' },
+  { value: 150, suffix: '+', label: 'Curated Cities' },
   { value: 98, suffix: '%', label: 'Satisfaction' },
-  { value: 24, suffix: '/7', label: 'Support' },
+  { value: 24, suffix: '/7', label: 'Availability' },
 ];

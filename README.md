@@ -1,11 +1,11 @@
 <div align="center">
 
-# 🌍 Traveloop
+# 🌍 Colombiator
 
 ### **AI-Powered Travel Planning, Collaborative Itineraries & Smart Budgeting**
 *Built for the Odoo x Parul University Hackathon 2026*
 
-[![Vercel Deployment](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://github.com/mahfooz091/OdooxParulUniversityHackathon26)
+[![Production Website](https://img.shields.io/badge/Production%20Website-colombiator.vercel.app-teal?style=for-the-badge&logo=vercel)](https://colombiator.vercel.app/)
 [![React](https://img.shields.io/badge/Frontend-React%2018%20%2B%20Vite-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
 [![Node.js](https://img.shields.io/badge/Backend-Node.js%20%2B%20Express-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 [![MongoDB](https://img.shields.io/badge/Database-MongoDB%20Atlas-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
@@ -15,7 +15,9 @@
 
 > **Plan routes, track budgets, and share adventures — all in one loop.**
 
-**Traveloop** transforms fragmented travel planning into a seamless, intelligent loop. From discovering curated destinations and building customized multi-stop itineraries to tracking budgets in real time and sharing journeys with a global community, Traveloop is your all-in-one travel companion.
+**Colombiator** transforms fragmented travel planning into a seamless, intelligent loop. From discovering curated destinations and building customized multi-stop itineraries to tracking budgets in real time and sharing journeys with a global community, Colombiator is your all-in-one travel companion.
+
+**Production URL:** [https://colombiator.vercel.app/](https://colombiator.vercel.app/)
 
 </div>
 
@@ -40,12 +42,12 @@
 ## 📸 Visual Showcase & Page Walkthrough
 
 ### 1. 🏠 Landing Page — Hero Section
-**URL:** `/` *(localhost:5173)*
+**URL:** `/` *(https://colombiator.vercel.app/)*
 
 ![Home Page](./screenshots/home.png)
 
-The public-facing homepage introduces Traveloop with a bold headline and a live itinerary preview widget showing real-time budget tracking and AI confidence scores.
-- **Hero Headline:** *"Plan Your Perfect Journey with Traveloop"*
+The public-facing homepage introduces Colombiator with a bold headline and a live itinerary preview widget showing real-time budget tracking and AI confidence scores.
+- **Hero Headline:** *"Plan Your Perfect Journey with Colombiator"*
 - **Live Demo Card:** Curated route (e.g., Tokyo → Kyoto, 7 days, 94% confidence, budget pulse)
 - **Direct Calls-to-Action:** **Start Exploring** and **Watch Demo**
 - **Top Navigation:** Destinations, Features, Pricing, Reviews, About, Sign In, Get Started
@@ -364,7 +366,7 @@ This repository is configured for a **unified fullstack deployment** on Vercel:
 
 6. **Deploy**:
    - Click **Deploy**.
-   - Vercel will install dependencies, build the frontend bundle, package the serverless function, and provide your public production URL (e.g., `https://traveloop.vercel.app`).
+   - Vercel will install dependencies, build the frontend bundle, package the serverless function, and provide your public production URL (e.g., `https://colombiator.vercel.app`).
 
 ---
 
@@ -405,5 +407,5 @@ All backend routes are accessible under `/api`:
 ---
 
 <div align="center">
-  <p>© 2026 Traveloop. Built with ❤️ for <b>Odoo x Parul University Hackathon 2026</b></p>
+  <p>© 2026 Colombiator. Built with ❤️ for <b>Odoo x Parul University Hackathon 2026</b></p>
 </div>

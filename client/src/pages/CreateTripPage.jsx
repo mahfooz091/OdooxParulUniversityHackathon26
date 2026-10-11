@@ -29,7 +29,7 @@ export default function CreateTripPage() {
           departureDate: payload.endDate,
         });
       }
-      localStorage.removeItem('traveloop-trip-draft');
+      localStorage.removeItem('colombiator-trip-draft');
       toast.success('Trip created');
       navigate(`/trips/${trip._id}/builder`, { replace: true });
     } catch (e) {

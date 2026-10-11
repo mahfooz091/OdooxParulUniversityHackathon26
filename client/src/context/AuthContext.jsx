@@ -23,6 +23,7 @@ export function AuthProvider({ children }) {
       setUser(u);
     } catch {
       setUser(null);
+      localStorage.removeItem('colombiator_token');
     } finally {
       setLoading(false);
     }
@@ -35,29 +36,42 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const onUnauth = () => {
       setUser(null);
+      localStorage.removeItem('colombiator_token');
       toast.info('Session expired. Please sign in again.');
       navigate('/login');
     };
-    window.addEventListener('traveloop:unauthorized', onUnauth);
-    return () => window.removeEventListener('traveloop:unauthorized', onUnauth);
+    window.addEventListener('colombiator:unauthorized', onUnauth);
+    return () => window.removeEventListener('colombiator:unauthorized', onUnauth);
   }, [navigate]);
 
   const login = async (payload) => {
     const data = await authService.login(payload);
+    if (data?.token) {
+      localStorage.setItem('colombiator_token', data.token);
+    }
     setUser(data.user);
     return data;
   };
 
   const register = async (payload) => {
     const data = await authService.register(payload);
+    if (data?.token) {
+      localStorage.setItem('colombiator_token', data.token);
+    }
     setUser(data.user);
     return data;
   };
 
   const logout = async () => {
-    await authService.logout();
-    setUser(null);
-    navigate('/login');
+    try {
+      await authService.logout();
+    } catch {
+      /* ignore server logout error */
+    } finally {
+      localStorage.removeItem('colombiator_token');
+      setUser(null);
+      navigate('/login');
+    }
   };
 
   const value = useMemo(

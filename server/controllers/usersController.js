@@ -73,11 +73,21 @@ export const uploadPhoto = async (req, res, next) => {
     }
     const b64 = Buffer.from(req.file.buffer).toString('base64');
     const dataUri = `data:${req.file.mimetype};base64,${b64}`;
-    const result = await cloudinary.uploader.upload(dataUri, {
-      folder: 'traveloop/profiles',
-    });
+    let photoUrl = dataUri;
+
+    if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET) {
+      try {
+        const result = await cloudinary.uploader.upload(dataUri, {
+          folder: 'colombiator/profiles',
+        });
+        photoUrl = result.secure_url;
+      } catch (err) {
+        console.warn('Cloudinary avatar upload failed, falling back to data URI:', err.message);
+      }
+    }
+
     const user = await User.findById(req.user._id);
-    user.photo = result.secure_url;
+    user.photo = photoUrl;
     await user.save();
     res.json({ success: true, photo: user.photo });
   } catch (err) {

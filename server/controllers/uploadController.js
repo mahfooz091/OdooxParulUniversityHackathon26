@@ -18,7 +18,7 @@ export const uploadImage = async (req, res, next) => {
     // 1. Attempt to upload to Cloudinary if configured
     if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET) {
       try {
-        const folder = req.body.folder || 'traveloop/uploads';
+        const folder = req.body.folder || 'colombiator/uploads';
         const result = await cloudinary.uploader.upload(dataUri, { folder });
         return res.json({ success: true, url: result.secure_url });
       } catch (err) {

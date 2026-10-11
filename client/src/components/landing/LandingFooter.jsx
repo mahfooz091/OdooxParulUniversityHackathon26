@@ -18,7 +18,7 @@ export default function LandingFooter() {
   const submit = (e) => {
     e.preventDefault();
     if (!email.trim()) return;
-    toast.info('Thanks — you’re on the list!');
+    toast.info('Thanks for subscribing to Colombiator travel dispatches!');
     setEmail('');
   };
 
@@ -29,8 +29,7 @@ export default function LandingFooter() {
           <div className="lg:col-span-1">
             <Logo showText variant="light" />
             <p className="mt-4 text-sm leading-relaxed text-slate-400">
-              The AI-powered platform for journeys that feel effortless — from first idea to final
-              landing.
+              The collaborative platform for journeys that feel effortless — from first itinerary idea to final landing.
             </p>
             <div className="mt-6 flex gap-3">
               {[Twitter, Instagram, Facebook, Linkedin].map((Icon, i) => (
@@ -38,7 +37,7 @@ export default function LandingFooter() {
                   key={i}
                   href="#"
                   className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-slate-300 transition-colors hover:bg-teal-500/20 hover:text-white"
-                  aria-label="Social"
+                  aria-label="Social link"
                 >
                   <Icon className="h-4 w-4" />
                 </a>
@@ -74,7 +73,7 @@ export default function LandingFooter() {
             <ul className="mt-4 space-y-3 text-sm">
               <li className="flex items-start gap-2">
                 <Mail className="mt-0.5 h-4 w-4 shrink-0 text-teal-400" />
-                hello@traveloop.com
+                hello@colombiator.com
               </li>
               <li className="flex items-start gap-2">
                 <Phone className="mt-0.5 h-4 w-4 shrink-0 text-teal-400" />
@@ -105,7 +104,7 @@ export default function LandingFooter() {
               <motion.button
                 type="submit"
                 whileTap={{ scale: 0.98 }}
-                className="rounded-xl bg-gradient-to-r from-teal-500 to-cyan-500 px-5 py-3 text-sm font-semibold text-white"
+                className="rounded-xl bg-gradient-to-r from-teal-500 to-cyan-500 px-5 py-3 text-sm font-semibold text-white hover:brightness-110 transition-all"
               >
                 Subscribe
               </motion.button>
@@ -114,13 +113,13 @@ export default function LandingFooter() {
         </div>
 
         <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-sm text-slate-500 md:flex-row">
-          <p>© {new Date().getFullYear()} Traveloop. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Colombiator. All rights reserved.</p>
           <div className="flex gap-6">
             <a href="#" className="hover:text-teal-300">
-              Privacy
+              Privacy Policy
             </a>
             <a href="#" className="hover:text-teal-300">
-              Terms
+              Terms of Service
             </a>
           </div>
         </div>

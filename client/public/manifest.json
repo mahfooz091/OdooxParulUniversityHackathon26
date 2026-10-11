@@ -1,0 +1,20 @@
+{
+  "short_name": "Colombiator",
+  "name": "Colombiator — Collaborative Travel & Itineraries",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    },
+    {
+      "src": "/logo.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#0d9488",
+  "theme_color": "#0d9488",
+  "display": "standalone"
+}

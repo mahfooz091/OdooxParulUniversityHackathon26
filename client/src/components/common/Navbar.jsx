@@ -13,7 +13,7 @@ export default function Navbar({ variant = 'app', onMenuClick }) {
   const [open, setOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([
-    { id: 1, text: "Welcome to Traveloop!", time: "Just now" }
+    { id: 1, text: "Welcome to Colombiator!", time: "Just now" }
   ]);
 
   useEffect(() => {

@@ -71,7 +71,7 @@ export default function DashboardPage() {
           ) : trips.length === 0 ? (
             <EmptyState
               title="No trips yet"
-              description="Start planning your first adventure with Traveloop."
+              description="Start planning your first adventure with Colombiator."
             />
           ) : (
             <div className="grid sm:grid-cols-2 gap-6">

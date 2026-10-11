@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { toast } from 'react-toastify';
+import { Loader2 } from 'lucide-react';
 import Input from '../common/Input.jsx';
 import Button from '../common/Button.jsx';
 import Modal from '../common/Modal.jsx';
@@ -17,6 +19,7 @@ export default function TripForm({ initial, onSubmit, submitting }) {
     initial?.endDate ? new Date(initial.endDate) : new Date(Date.now() + 86400000 * 5)
   );
   const [coverPhoto, setCoverPhoto] = useState(initial?.coverPhoto || '');
+  const [uploading, setUploading] = useState(false);
   const [isPublic, setIsPublic] = useState(Boolean(initial?.isPublic));
   const [destinationCityId, setDestinationCityId] = useState('');
   const [destinationCityName, setDestinationCityName] = useState('');
@@ -35,13 +38,13 @@ export default function TripForm({ initial, onSubmit, submitting }) {
         destinationCityId,
         destinationCityName,
       };
-      localStorage.setItem('traveloop-trip-draft', JSON.stringify(draft));
+      localStorage.setItem('colombiator-trip-draft', JSON.stringify(draft));
     }, 30000);
     return () => clearInterval(id);
   }, [title, description, startDate, endDate, coverPhoto, isPublic, destinationCityId]);
 
   useEffect(() => {
-    const raw = localStorage.getItem('traveloop-trip-draft');
+    const raw = localStorage.getItem('colombiator-trip-draft');
     if (!initial && raw) {
       try {
         const d = JSON.parse(raw);
@@ -63,10 +66,15 @@ export default function TripForm({ initial, onSubmit, submitting }) {
     const file = e.target.files?.[0];
     if (!file) return;
     try {
-      const { url } = await uploadImage(file, 'traveloop/trips');
+      setUploading(true);
+      const { url } = await uploadImage(file, 'colombiator/trips');
       setCoverPhoto(url);
+      toast.success('Cover image uploaded successfully!');
     } catch (err) {
       console.error(err);
+      toast.error(err.friendlyMessage || 'Failed to upload image. Please try again.');
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -142,10 +150,18 @@ export default function TripForm({ initial, onSubmit, submitting }) {
       </div>
       <div>
         <label className="block text-sm font-medium text-slate-700 mb-2">Cover photo</label>
-        <label className="flex flex-col items-center justify-center border-2 border-dashed border-slate-200 rounded-2xl p-8 cursor-pointer hover:border-primary transition-colors">
-          <input type="file" accept="image/*" className="hidden" onChange={handleFile} />
-          {coverPhoto ? (
-            <img src={coverPhoto} alt="" className="max-h-48 rounded-xl object-cover" />
+        <label className={`flex flex-col items-center justify-center border-2 border-dashed border-slate-200 rounded-2xl p-8 transition-colors ${uploading ? 'opacity-60 cursor-not-allowed bg-slate-50' : 'cursor-pointer hover:border-primary'}`}>
+          <input type="file" accept="image/*" className="hidden" onChange={handleFile} disabled={uploading} />
+          {uploading ? (
+            <div className="flex flex-col items-center gap-2 text-primary py-4">
+              <Loader2 className="w-8 h-8 animate-spin" />
+              <span className="text-sm font-medium">Uploading image...</span>
+            </div>
+          ) : coverPhoto ? (
+            <div className="relative group w-full flex flex-col items-center">
+              <img src={coverPhoto} alt="Cover preview" className="max-h-48 rounded-xl object-cover shadow-sm" />
+              <span className="text-xs text-muted mt-2 group-hover:text-primary transition-colors">Click or drag new image to replace</span>
+            </div>
           ) : (
             <span className="text-muted">Drag & drop or click to upload</span>
           )}
@@ -160,7 +176,7 @@ export default function TripForm({ initial, onSubmit, submitting }) {
         />
         <span className="text-sm font-medium text-slate-700">Share with community</span>
       </label>
-      <Button type="submit" className="w-full py-3" disabled={submitting}>
+      <Button type="submit" className="w-full py-3" disabled={submitting || uploading}>
         {submitting ? 'Saving…' : 'Save & Continue to Itinerary'}
       </Button>
 
@@ -174,6 +190,9 @@ export default function TripForm({ initial, onSubmit, submitting }) {
           onPickCity={(city) => {
             setDestinationCityId(city._id);
             setDestinationCityName(city.name);
+            if (!coverPhoto && city.coverImage) {
+              setCoverPhoto(city.coverImage);
+            }
             setShowCityModal(false);
           }}
         />

@@ -1,6 +1,6 @@
 import api from './api.js';
 
-export const uploadImage = (file, folder = 'traveloop/uploads') => {
+export const uploadImage = (file, folder = 'colombiator/uploads') => {
   const fd = new FormData();
   fd.append('image', file);
   fd.append('folder', folder);

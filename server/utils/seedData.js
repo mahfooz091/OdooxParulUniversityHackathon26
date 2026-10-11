@@ -128,12 +128,12 @@ async function seed() {
   }
 
   const admin = await User.create({
-    name: 'Traveloop Admin',
-    email: 'admin@traveloop.com',
+    name: 'Colombiator Admin',
+    email: 'admin@colombiator.com',
     password: 'Admin@123',
     role: 'admin',
-    city: 'Singapore',
-    country: 'Singapore',
+    city: 'Bogotá',
+    country: 'Colombia',
   });
 
   const demoUsers = [];
@@ -141,7 +141,7 @@ async function seed() {
     demoUsers.push(
       await User.create({
         name: `Demo Traveler ${i}`,
-        email: `demo${i}@traveloop.com`,
+        email: `demo${i}@colombiator.com`,
         password: 'Demo@123',
         phone: `+1000000000${i}`,
         city: cities[i * 5].name,
@@ -200,8 +200,8 @@ async function seed() {
   await trip1.save();
 
   console.log(`Seeded ${cities.length} cities, ${activityCount} activities.`);
-  console.log(`Admin: admin@traveloop.com / Admin@123`);
-  console.log(`Demo: demo1@traveloop.com / Demo@123 (demo2...demo5)`);
+  console.log(`Admin: admin@colombiator.com / Admin@123`);
+  console.log(`Demo: demo1@colombiator.com / Demo@123 (demo2...demo5)`);
   await mongoose.disconnect();
   process.exit(0);
 }

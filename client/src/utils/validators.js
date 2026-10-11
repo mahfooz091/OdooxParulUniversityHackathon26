@@ -2,19 +2,32 @@ export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function validateLogin({ email, password }) {
   const errors = {};
-  if (!email) errors.email = 'Email is required';
-  else if (!emailRegex.test(email)) errors.email = 'Invalid email';
-  if (!password) errors.password = 'Password is required';
+  if (!email?.trim()) {
+    errors.email = 'Please enter your email address';
+  } else if (!emailRegex.test(email.trim())) {
+    errors.email = 'Please enter a valid email address';
+  }
+  if (!password) {
+    errors.password = 'Please enter your password';
+  }
   return errors;
 }
 
 export function validateSignup(data) {
   const errors = {};
-  if (!data.name?.trim()) errors.name = 'Name is required';
-  if (!data.email) errors.email = 'Email is required';
-  else if (!emailRegex.test(data.email)) errors.email = 'Invalid email';
+  if (!data.name?.trim()) {
+    errors.name = 'Full name is required';
+  }
+  if (!data.email?.trim()) {
+    errors.email = 'Email address is required';
+  } else if (!emailRegex.test(data.email.trim())) {
+    errors.email = 'Please enter a valid email address';
+  }
   if (!data.password || data.password.length < 8) {
-    errors.password = 'Password must be at least 8 characters';
+    errors.password = 'Password must be at least 8 characters long';
+  }
+  if (data.confirmPassword !== undefined && data.password !== data.confirmPassword) {
+    errors.confirmPassword = 'Passwords do not match';
   }
   return errors;
 }

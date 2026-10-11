@@ -7,8 +7,12 @@ export default function Logo({ size = 'md', showText = true, variant = 'dark' })
 
   return (
     <div className="flex items-center gap-2.5">
-      <img src="/logo.png" alt="Traveloop" className={`${dim} shrink-0 rounded-xl shadow-sm`} />
-      {showText && <span className={textClass}>Traveloop</span>}
+      <img
+        src="/logo.png"
+        alt="Colombiator"
+        className={`${dim} shrink-0 rounded-xl object-contain shadow-sm bg-white p-0.5 border border-slate-100`}
+      />
+      {showText && <span className={textClass}>Colombiator</span>}
     </div>
   );
 }

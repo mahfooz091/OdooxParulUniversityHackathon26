@@ -29,8 +29,8 @@ export default function AIPlannerSection() {
               Your intelligent copilot for every trip
             </h2>
             <p className="mt-4 text-lg text-slate-600 leading-relaxed">
-              Traveloop synthesizes destinations, timing, and budget into a living itinerary — with
-              smart recommendations you can refine in seconds.
+              Colombiator synthesizes destinations, timing, and budgets into an organized, living itinerary — with
+              collaborative features you can customize in seconds.
             </p>
             <ul className="mt-8 space-y-4">
               {[

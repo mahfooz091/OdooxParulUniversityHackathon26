@@ -14,7 +14,7 @@ const plans = [
     featured: false,
   },
   {
-    name: 'Traveloop Pro',
+    name: 'Colombiator Pro',
     price: '12',
     period: '/ month',
     blurb: 'AI depth, budgets, and collaboration.',
