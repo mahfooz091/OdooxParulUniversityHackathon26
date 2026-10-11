@@ -116,9 +116,11 @@ app.use(['/api/*', '/*'], (req, res) => {
 
 app.use(errorHandler);
 
-// Check if server.js is executed directly as standalone script or Vercel service
+// Only bind TCP port when executed directly as a standalone process (local dev, Docker)
+// In Vercel, the Express app is exported directly and Vercel manages the HTTP server lifecycle
+const isVercelRuntime = Boolean(process.env.VERCEL) || Boolean(process.env.AWS_LAMBDA_FUNCTION_NAME);
 const isDirectRun =
-  Boolean(process.env.PORT) ||
+  !isVercelRuntime &&
   (process.argv[1] &&
     (process.argv[1].endsWith('server.js') ||
       process.argv[1].endsWith('nodemon') ||
