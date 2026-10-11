@@ -28,12 +28,22 @@ const app = express();
 const PORT = process.env.PORT || 5001;
 const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
 
-await connectDB();
-
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
 app.use(
   cors({
-    origin: clientUrl,
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps, curl, or same-origin)
+      if (!origin) return callback(null, true);
+      if (
+        origin === clientUrl ||
+        origin.endsWith('.vercel.app') ||
+        origin.includes('localhost') ||
+        process.env.NODE_ENV !== 'production'
+      ) {
+        return callback(null, true);
+      }
+      return callback(null, true);
+    },
     credentials: true,
   })
 );
@@ -46,8 +56,16 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-app.get('/api/health', (req, res) => {
-  res.json({ success: true, status: 'ok' });
+// Ensure requests routed to the serverless function match /api routes
+app.use((req, res, next) => {
+  if (!req.url.startsWith('/api') && !req.url.startsWith('/uploads')) {
+    req.url = '/api' + (req.url.startsWith('/') ? req.url : '/' + req.url);
+  }
+  next();
+});
+
+app.get(['/api/health', '/health'], (req, res) => {
+  res.json({ success: true, status: 'ok', timestamp: new Date().toISOString() });
 });
 
 app.use('/api/auth', authRoutes);
@@ -68,6 +86,24 @@ app.use('/api/*', (req, res) => {
 
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// Check if server.js is executed directly as standalone script
+const isDirectRun =
+  process.argv[1] &&
+  (process.argv[1].endsWith('server.js') ||
+    process.argv[1].endsWith('nodemon') ||
+    process.argv[1].includes('server.js'));
+
+if (isDirectRun && !process.env.VERCEL) {
+  try {
+    await connectDB();
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  } catch (err) {
+    console.error('Fatal: Could not connect to database on startup:', err.message);
+    process.exit(1);
+  }
+}
+
+export default app;
+

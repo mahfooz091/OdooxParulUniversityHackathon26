@@ -1,126 +1,409 @@
-# ✈️ Travelloop — Travel Planning App
+<div align="center">
 
-> **Plan routes, track budgets, and share adventures — all in one loop.**
+# 🌍 Traveloop
 
-Travelloop is a modern, AI-powered travel planning web application that helps users create intelligent itineraries, manage budgets, explore destinations, and collaborate with other travelers.
+### **AI-Powered Travel Planning, Collaborative Itineraries & Smart Budgeting**
+*Built for the Odoo x Parul University Hackathon 2026*
+
+[![Vercel Deployment](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://github.com/mahfooz091/OdooxParulUniversityHackathon26)
+[![React](https://img.shields.io/badge/Frontend-React%2018%20%2B%20Vite-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
+[![Node.js](https://img.shields.io/badge/Backend-Node.js%20%2B%20Express-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![MongoDB](https://img.shields.io/badge/Database-MongoDB%20Atlas-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![TailwindCSS](https://img.shields.io/badge/Styling-Tailwind%20CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 
 ---
 
-## 📸 Screenshots (Page-by-Page Walkthrough)
+> **Plan routes, track budgets, and share adventures — all in one loop.**
+
+**Traveloop** transforms fragmented travel planning into a seamless, intelligent loop. From discovering curated destinations and building customized multi-stop itineraries to tracking budgets in real time and sharing journeys with a global community, Traveloop is your all-in-one travel companion.
+
+</div>
+
+---
+
+## 📑 Table of Contents
+
+- [Visual Showcase & Page Walkthrough](#-visual-showcase--page-walkthrough)
+- [Page Flow Architecture](#-page-flow-architecture)
+- [Key Features](#-key-features)
+- [Complete User Guide](#-complete-user-guide)
+- [Technology Stack](#-technology-stack)
+- [Project Architecture](#-project-architecture)
+- [Local Development Setup](#-local-development-setup)
+- [Database Seeding](#-database-seeding)
+- [Deploying on Vercel](#-deploying-on-vercel)
+- [API Reference](#-api-reference)
+- [Security & Best Practices](#-security--best-practices)
+
+---
+
+## 📸 Visual Showcase & Page Walkthrough
 
 ### 1. 🏠 Landing Page — Hero Section
-**URL:** `localhost:5173`
+**URL:** `/` *(localhost:5173)*
 
 ![Home Page](./screenshots/home.png)
 
-The public-facing homepage introduces Travelloop with a bold headline and a live itinerary preview widget showing real-time budget tracking and AI confidence scores.
-
-- "Plan Your Perfect Journey with Travelloop" headline
-- Live itinerary demo card (e.g., Tokyo → Kyoto, 7 days, 94% confidence)
-- **Start Exploring** and **Watch Demo** CTAs
-- Top nav: Destinations, Features, Pricing, Reviews, About, Sign In, Get Started
+The public-facing homepage introduces Traveloop with a bold headline and a live itinerary preview widget showing real-time budget tracking and AI confidence scores.
+- **Hero Headline:** *"Plan Your Perfect Journey with Traveloop"*
+- **Live Demo Card:** Curated route (e.g., Tokyo → Kyoto, 7 days, 94% confidence, budget pulse)
+- **Direct Calls-to-Action:** **Start Exploring** and **Watch Demo**
+- **Top Navigation:** Destinations, Features, Pricing, Reviews, About, Sign In, Get Started
 
 ---
 
 ### 2. 🔐 Login Page
-**URL:** `localhost:5173/login`
+**URL:** `/login`
 
 ![Sign In](./screenshots/login.png)
 
-Split-screen layout:
+Split-screen layout with responsive authentication:
 - **Left:** Full-bleed destination photo (Bali temple) with tagline: *"Welcome back, explorer."*
-- **Right (dark card):** Email + Password fields, Show/Hide password toggle, Sign In button, Forgot Password, Create Account link
+- **Right (glassmorphic card):** Email & Password fields, Show/Hide password toggle, Sign In action, Forgot Password, and Create Account links
 
 ---
 
 ### 3. 📝 Signup Page
-**URL:** `localhost:5173/signup`
+**URL:** `/signup`
 
 ![Sign Up](./screenshots/signup.png)
 
-Split-screen layout (Tokyo street scene backdrop):
-- **Left:** Quote — *"The world is wide — your plan should be too."*
-- **Right (dark card):** First Name, Last Name, Email, Phone Number, City, Country (dropdown), Password, Additional Information fields + Create Account button
+Streamlined traveler registration with instant validation:
+- **Left:** Tokyo neon street scene with quote: *"The world is wide — your plan should be too."*
+- **Right (glassmorphic card):** First Name, Last Name, Email, Phone Number, City, Country selector, Password, and Additional Information fields
 
 ---
 
 ### 4. 📊 Dashboard (Home — After Login)
-**URL:** `localhost:5173/dashboard`
+**URL:** `/dashboard`
 
 ![Dashboard](./screenshots/dashboard.png)
 
-The main user dashboard after authentication:
-
-- Personalized welcome banner: *"Welcome back, [username]!"* with **Plan New Trip** CTA
-- **Popular Destinations** horizontal scrollable carousel (Bali, Istanbul, Tokyo, Bangkok, London) with cost index indicators ($$–$$$$)
-- **Previous Trips** section (shows past trip history)
-- Left sidebar navigation: Home, My Trips, Explore Cities, Activities, Community, Profile
+The main personal hub after authentication:
+- **Personalized Greeting:** *"Welcome back, [username]!"* with **Plan New Trip** CTA
+- **Popular Destinations Carousel:** Horizontal scrollable cards (Bali, Istanbul, Tokyo, Bangkok, London) with cost index ratings (`$$`–`$$$$`)
+- **Previous Trips:** Active and completed journey tracking
+- **Sidebar Navigation:** Home, My Trips, Explore Cities, Activities, Community, Profile
 
 ---
 
-### 5. 👥 Community Page
-**URL:** `localhost:5173/community`
+### 5. 👥 Community Itineraries
+**URL:** `/community`
 
 ![Community](./screenshots/community.png)
 
-Discover and share public trip itineraries:
-
-- Section title: *"Community trips — Discover public itineraries from fellow travelers."*
-- Toggle: **Most Recent** | **Most Popular**
-- Search bar: "Search titles..."
-- Trip cards with destination photo, travel dates, duration, likes, comments, budget tag
-- Action buttons: **Copy link** | **Copy to my trips**
+Discover and share public itineraries with the global traveler community:
+- **Section Title:** *"Community trips — Discover public itineraries from fellow travelers."*
+- **Toggles & Search:** Filter by **Most Recent** or **Most Popular**; instant search across trip titles
+- **Trip Cards:** Destination cover photos, dates, duration, budget indicators, and likes/saves
+- **Social Actions:** **Copy link** for instant sharing, **Copy to my trips** to clone any public route into your own planner
 
 ---
 
 ### 6. 🌍 Explore Cities Page
-**URL:** `localhost:5173/cities`
+**URL:** `/cities`
 
 ![City](./screenshots/city.png)
 
-Browse and discover travel destinations:
-
-- Search bar: "Search cities or countries..."
-- **Filter tabs:** All | Europe | Asia | Americas | Africa | Oceania
-- **Sort options:** Popularity | Cost (low→high) | A–Z
-- City cards in a 3-column grid with photo, city name, country, and cost index
-- "View details" link on each card
-- Cities shown: Bali, Istanbul, Tokyo, Bangkok, London, New York, and more
+Browse and discover worldwide destinations with live filtering:
+- **Instant Search:** Search across cities and countries in real time
+- **Continent Filters:** All, Europe, Asia, Americas, Africa, Oceania
+- **Sorting Options:** Popularity, Cost (low→high), Alphabetical (A–Z)
+- **Destination Cards:** 3-column responsive grid with city photo, country, cost index, and **View details** link
 
 ---
 
-## 🧭 Page Flow Summary
+## 🧭 Page Flow Architecture
 
 ```
 Landing Page (/)
-    ├── Features Section (scroll)
-    ├── Pricing Section (scroll)
+    ├── Features & Destinations (scroll)
     ├── Sign In → /login
     └── Get Started → /signup
 
-After Login:
-    /dashboard
-        ├── /cities       → Explore Cities
-        ├── /community    → Community Trips
-        ├── /activities   → Activities
-        ├── /trips        → My Trips
-        └── /profile      → User Profile
+Authenticated App:
+    /dashboard (Personalized Hub)
+        ├── /trips/new    → Plan New Trip & City Selector Modal
+        ├── /trips        → My Trips & Itinerary Viewer
+        ├── /cities       → Explore Cities & Curated Activities
+        ├── /activities   → Browse Experiences
+        ├── /community    → Public Itineraries & Trip Cloning
+        └── /profile      → User Profile & Saved Destinations
 ```
 
 ---
 
-## 🛠️ Tech Stack (Inferred from UI)
+## 🚀 Key Features
 
-| Layer | Technology |
-|---|---|
-| Frontend Framework | React (Vite — port 5173) |
-| Styling | Tailwind CSS |
-| Routing | React Router |
-| AI Features | GPT-based itinerary generation |
-| Auth | JWT / Session-based login |
+- **⚡ AI & Intelligent Route Planning**: Curate multi-day, multi-stop itineraries with day-by-day activity suggestions tailored to your schedule.
+- **🧭 Dynamic City Exploration**: Search and filter global destinations by region (Europe, Asia, Americas, Africa, Oceania) with live cost ratings and popularity metrics.
+- **💰 Smart Budget Pulse**: Track accommodation, transport, meals, activities, and miscellaneous expenses against planned thresholds in real time.
+- **🗺️ Interactive Map Views**: Visualize travel stops and waypoints powered by Leaflet & React-Leaflet.
+- **👥 Community & Public Sharing**: Publish trips with unique shareable links; clone community trips into your private itinerary in one click.
+- **🧳 Packing Checklists & Trip Notes**: Keep packing items organized by category and store crucial travel notes offline-first.
+- **🔔 Real-Time Notification Center**: Interactive alerts for community interactions, trip reminders, and status updates.
+- **☁️ Cloud-Ready & Serverless Architecture**: Fully optimized for Vercel Serverless Functions with MongoDB Atlas connection pooling and fallback handling.
 
 ---
 
-## 📄 License
+## 📖 Complete User Guide
 
-© 2026 Traveloop. All rights reserved.
+### Step 1: Getting Started & Registration
+1. Navigate to the **Sign Up** page (`/signup`).
+2. Fill in your details (Full Name, Email, Password, Country, City).
+3. Upon registration, you are automatically signed in with a secure session cookie and directed to your **Dashboard**.
+4. Existing users can log in from the **Sign In** page (`/login`).
+
+### Step 2: Exploring Destinations
+1. Open the **Explore Cities** tab from the sidebar (`/cities`).
+2. Filter cities by region using the pills (*All*, *Europe*, *Asia*, *Americas*, *Africa*, *Oceania*).
+3. Sort results by *Popularity*, *Cost (Low to High)*, or alphabetically (*A–Z*).
+4. Click **View details** on any destination card to see curated activities, average costs, and local highlights.
+
+### Step 3: Creating a New Trip
+1. From the Dashboard or My Trips page, click **Plan New Trip** (`/trips/new`).
+2. Enter your **Trip Name** and trip dates using the interactive date pickers.
+3. Select your **Destination City** using the integrated destination search modal.
+4. Upload a custom cover photo (stored securely in Cloudinary or local/serverless fallback) or let the destination's cover image auto-populate.
+5. Choose whether to make the trip **Public** for the community or keep it **Private**.
+6. Click **Save & Continue to Itinerary** to enter the Itinerary Builder.
+
+### Step 4: Building & Customizing Itineraries
+1. In the **Itinerary Builder** (`/trips/:id/builder`), view your stops organized chronologically.
+2. Add new stops, browse suggested city activities, and attach activities to specific days.
+3. Switch between **List View** and **Interactive Map View** to preview your travel route.
+
+### Step 5: Managing Trip Budgets
+1. Navigate to **Budget** (`/trips/:id/budget`).
+2. Allocate funds across categories:
+   - 🏨 Accommodation
+   - ✈️ Transportation
+   - 🍽️ Food & Dining
+   - 🎟️ Activities & Attractions
+   - 🛍️ Miscellaneous
+3. Monitor your **Budget Pulse** on the dashboard to ensure your spending stays on track.
+
+### Step 6: Community Sharing
+1. Visit the **Community** tab (`/community`).
+2. Explore public trips shared by other explorers.
+3. Click **Copy link** to share a direct read-only itinerary link with friends.
+4. Click **Copy to my trips** to clone any community itinerary directly into your account and customize it.
+
+---
+
+## 🛠 Technology Stack
+
+### Frontend
+- **Framework**: [React 18](https://react.dev/)
+- **Bundler**: [Vite 5](https://vitejs.dev/)
+- **Routing**: [React Router DOM v6](https://reactrouter.com/)
+- **State & Data Fetching**: [TanStack React Query v5](https://tanstack.com/query)
+- **Styling**: [Tailwind CSS v3](https://tailwindcss.com/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Maps**: [Leaflet](https://leafletjs.com/) & [React-Leaflet](https://react-leaflet.js.org/)
+- **Date Pickers & Charts**: `react-datepicker`, `recharts`
+
+### Backend
+- **Runtime**: [Node.js (ES Modules)](https://nodejs.org/)
+- **Framework**: [Express.js v4](https://expressjs.com/)
+- **Serverless Adapter**: Native Vercel Serverless Function entry point (`api/index.js`)
+- **Authentication**: JSON Web Tokens (`jsonwebtoken`) + `bcryptjs` password hashing + HTTP-only cookies
+- **Security**: `helmet`, `cors`, `express-rate-limit`
+- **File Uploads**: `multer` with Cloudinary CDN integration and base64 fallback
+
+### Database & Cloud
+- **Database**: [MongoDB Atlas](https://www.mongodb.com/atlas) with [Mongoose v8](https://mongoosejs.com/)
+- **Hosting**: [Vercel](https://vercel.com/) (Edge Static Hosting + Serverless Functions)
+- **Media**: [Cloudinary](https://cloudinary.com/) (with local disk & Data URI resilience)
+
+---
+
+## 🏛 Project Architecture
+
+```
+traveloop/
+├── api/                     # Vercel Serverless Function entry point
+│   └── index.js             # Serverless handler forwarding requests to Express
+├── client/                  # Frontend Single Page Application (React + Vite)
+│   ├── public/              # Static assets (logo.png, favicon.svg, icons)
+│   ├── src/
+│   │   ├── components/      # UI components (auth, dashboard, itinerary, layout)
+│   │   ├── context/         # AuthContext & global state
+│   │   ├── pages/           # Application views (Dashboard, Cities, Trips, Community)
+│   │   ├── services/        # Axios API clients
+│   │   └── utils/           # Helper functions & constants
+│   ├── package.json
+│   └── vite.config.js
+├── server/                  # Backend REST API (Express.js)
+│   ├── config/              # MongoDB connection & Cloudinary config
+│   ├── controllers/         # Business logic for all API endpoints
+│   ├── middleware/          # JWT protect, upload, errorHandler
+│   ├── models/              # Mongoose schemas (User, Trip, City, Activity, Stop, Budget)
+│   ├── routes/              # Express route declarations
+│   ├── utils/               # Seed data & JWT generator
+│   ├── package.json
+│   └── server.js            # Express app configuration & middleware
+├── screenshots/             # Production application screenshots
+├── .env.example             # Safe placeholder template for environment variables
+├── package.json             # Root unified package configuration
+├── vercel.json              # Vercel deployment & routing configuration
+└── README.md                # Project documentation & user guide
+```
+
+---
+
+## 💻 Local Development Setup
+
+### Prerequisites
+- **Node.js**: v18.0.0 or higher (v20+ recommended)
+- **npm**: v9.0.0 or higher
+- **MongoDB Atlas** account or local MongoDB instance
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/mahfooz091/OdooxParulUniversityHackathon26.git
+cd OdooxParulUniversityHackathon26
+```
+
+### 2. Configure Environment Variables
+Create a `.env` file inside the `server/` directory:
+```bash
+cp server/.env.example server/.env
+```
+Fill in your configuration:
+```env
+PORT=5001
+MONGO_URI=mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/traveloop?retryWrites=true&w=majority
+JWT_SECRET=your_super_secret_jwt_key_at_least_32_chars
+JWT_EXPIRE=30d
+CLIENT_URL=http://localhost:5173
+NODE_ENV=development
+```
+
+*(Optional) Create `client/.env` if you need custom API URLs:*
+```env
+VITE_API_URL=http://localhost:5001/api
+```
+
+### 3. Install Dependencies
+```bash
+# Install backend dependencies
+cd server && npm install
+
+# Install frontend dependencies
+cd ../client && npm install
+```
+
+### 4. Seed the Database
+Populate the database with curated cities, activities, demo users, and starter itineraries:
+```bash
+cd ../server
+node utils/seedData.js
+```
+
+### 5. Start Development Servers
+Open two terminal windows:
+
+**Terminal 1 (Backend API):**
+```bash
+cd server
+npm run dev
+# Server runs on http://localhost:5001
+```
+
+**Terminal 2 (Frontend Client):**
+```bash
+cd client
+npm run dev
+# Frontend runs on http://localhost:5173
+```
+
+Visit **`http://localhost:5173`** in your browser.
+
+---
+
+## 🚀 Deploying on Vercel
+
+This repository is configured for a **unified fullstack deployment** on Vercel:
+- The React frontend is built and served via Vercel's global CDN.
+- The Express backend runs as a high-performance **Vercel Serverless Function** via `api/index.js`.
+- All `/api/*` requests route internally to the serverless function on the same domain (no CORS friction or cookie blockage).
+
+### Step-by-Step Vercel Deployment
+
+1. **Push your code to GitHub**:
+   Ensure all changes are pushed to your repository `https://github.com/mahfooz091/OdooxParulUniversityHackathon26`.
+
+2. **Import into Vercel**:
+   - Go to [vercel.com](https://vercel.com/) and click **Add New...** -> **Project**.
+   - Select your repository **`OdooxParulUniversityHackathon26`**.
+
+3. **Configure Project Settings**:
+   - **Framework Preset**: `Other` (or leave default Vite/auto-detected).
+   - **Root Directory**: `./` (leave as Root).
+   - **Build Command**: `cd client && npm install && npm run build` *(configured in `vercel.json`)*.
+   - **Output Directory**: `client/dist` *(configured in `vercel.json`)*.
+
+4. **Add Environment Variables**:
+   In Vercel **Project Settings -> Environment Variables**, add:
+
+   | Key | Recommended Value | Description |
+   | :--- | :--- | :--- |
+   | `MONGO_URI` | `mongodb+srv://...` | MongoDB Atlas connection string |
+   | `JWT_SECRET` | *(Random 32+ character string)* | Secret for signing JWT authentication tokens |
+   | `JWT_EXPIRE` | `30d` | JWT expiration duration |
+   | `NODE_ENV` | `production` | Environment mode |
+   | `CLOUDINARY_CLOUD_NAME` | *(Optional)* | Cloudinary cloud name for persistent media uploads |
+   | `CLOUDINARY_API_KEY` | *(Optional)* | Cloudinary API Key |
+   | `CLOUDINARY_API_SECRET` | *(Optional)* | Cloudinary API Secret |
+
+5. **MongoDB Network Access Whitelist**:
+   - In MongoDB Atlas, navigate to **Security** -> **Network Access**.
+   - Click **Add IP Address** -> **Allow Access From Anywhere** (`0.0.0.0/0`) so that Vercel's dynamic serverless IP ranges can reach your database.
+
+6. **Deploy**:
+   - Click **Deploy**.
+   - Vercel will install dependencies, build the frontend bundle, package the serverless function, and provide your public production URL (e.g., `https://traveloop.vercel.app`).
+
+---
+
+## 📡 API Reference
+
+All backend routes are accessible under `/api`:
+
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/health` | Public | System health check |
+| `POST` | `/api/auth/register` | Public | Register a new user |
+| `POST` | `/api/auth/login` | Public | Authenticate user & receive token |
+| `POST` | `/api/auth/logout` | Public | Clear session cookie |
+| `GET` | `/api/auth/me` | Private | Get current authenticated profile |
+| `GET` | `/api/cities` | Public | List cities with search & pagination |
+| `GET` | `/api/cities/popular` | Public | Fetch top popular cities for homepage |
+| `GET` | `/api/cities/:id` | Public | Get single city details & coordinates |
+| `GET` | `/api/activities` | Public | Search curated activities by city |
+| `GET` | `/api/trips` | Private | Get current user's trips |
+| `POST` | `/api/trips` | Private | Create a new trip |
+| `GET` | `/api/trips/:id` | Private | Retrieve trip by ID with stops & budget |
+| `PUT` | `/api/trips/:id` | Private | Update trip details |
+| `DELETE` | `/api/trips/:id` | Private | Delete a trip |
+| `GET` | `/api/community` | Public | Fetch published community trips |
+| `POST` | `/api/community/:id/clone` | Private | Clone a public community trip into your trips |
+| `POST` | `/api/upload` | Private | Upload image (Cloudinary / Data URI fallback) |
+
+---
+
+## 🔒 Security & Best Practices
+
+- **Zero Hardcoded Secrets**: All credentials (`MONGO_URI`, `JWT_SECRET`, API keys) are strictly managed via environment variables and excluded from version control.
+- **HTTP-Only Cookies & Bearer Tokens**: Session tokens are guarded against XSS via `httpOnly` flags with automatic `Bearer` header fallback.
+- **Helmet Protection**: Security headers (`X-Frame-Options`, `X-Content-Type-Options`, `Cross-Origin-Resource-Policy`) are enforced across all responses.
+- **Input Sanitization**: Password hashing with `bcryptjs` salt rounds and strict Mongoose schema validation.
+- **Connection Caching**: Mongoose connections in serverless functions reuse existing connections across invocations to avoid connection saturation.
+
+---
+
+<div align="center">
+  <p>© 2026 Traveloop. Built with ❤️ for <b>Odoo x Parul University Hackathon 2026</b></p>
+</div>
