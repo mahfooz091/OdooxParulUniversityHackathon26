@@ -224,11 +224,10 @@ Authenticated App:
 ## 🏛 Project Architecture
 
 ```
-traveloop/
-├── api/                     # Vercel Serverless Function entry point
-│   └── index.js             # Serverless handler forwarding requests to Express
+colombiator/
+├── .github/                 # GitHub Actions CI automated workflows
 ├── client/                  # Frontend Single Page Application (React + Vite)
-│   ├── public/              # Static assets (logo.png, favicon.svg, icons)
+│   ├── public/              # Static assets (logo.png, favicon.svg, robots.txt, sitemap.xml)
 │   ├── src/
 │   │   ├── components/      # UI components (auth, dashboard, itinerary, layout)
 │   │   ├── context/         # AuthContext & global state
@@ -238,11 +237,12 @@ traveloop/
 │   ├── package.json
 │   └── vite.config.js
 ├── server/                  # Backend REST API (Express.js)
-│   ├── config/              # MongoDB connection & Cloudinary config
+│   ├── config/              # MongoDB connection, envCheck, Cloudinary config
 │   ├── controllers/         # Business logic for all API endpoints
 │   ├── middleware/          # JWT protect, upload, errorHandler
 │   ├── models/              # Mongoose schemas (User, Trip, City, Activity, Stop, Budget)
 │   ├── routes/              # Express route declarations
+│   ├── tests/               # Automated unit, integration, and security tests
 │   ├── utils/               # Seed data & JWT generator
 │   ├── package.json
 │   └── server.js            # Express app configuration & middleware
@@ -276,7 +276,7 @@ cp server/.env.example server/.env
 Fill in your configuration:
 ```env
 PORT=5001
-MONGO_URI=mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/traveloop?retryWrites=true&w=majority
+MONGO_URI=mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/colombiator?retryWrites=true&w=majority
 JWT_SECRET=your_super_secret_jwt_key_at_least_32_chars
 JWT_EXPIRE=30d
 CLIENT_URL=http://localhost:5173
