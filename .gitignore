@@ -9,7 +9,7 @@ node_modules/
 .env.production.local
 
 # Build folders
-dist/
+client/dist/
 build/
 
 # Logs
