@@ -14,8 +14,8 @@
     "server": {
       "root": "server",
       "framework": "express",
-      "installCommand": "rm -rf node_modules && npm install",
-      "buildCommand": "npm run build",
+      "installCommand": "echo 'skip-install'",
+      "buildCommand": "echo 'skip-build'",
       "entrypoint": "dist/index.js"
     }
   },
