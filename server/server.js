@@ -69,9 +69,8 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+const currentDir = typeof __dirname !== 'undefined' ? __dirname : process.cwd();
+app.use('/uploads', express.static(path.join(currentDir, 'uploads')));
 
 // Fast health and root checks without database dependency
 app.get(['/api/health', '/health', '/api', '/api/index.js'], (req, res) => {

@@ -1,10 +1,7 @@
 import cloudinary from '../config/cloudinary.js';
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const currentDir = typeof __dirname !== 'undefined' ? __dirname : process.cwd();
 
 export const isValidImageBuffer = (buf) => {
   if (!buf || buf.length < 4) return false;
@@ -57,7 +54,7 @@ export const uploadImage = async (req, res, next) => {
       try {
         const ext = req.file.mimetype.split('/')[1] || 'jpg';
         const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}.${ext}`;
-        const uploadDir = path.join(__dirname, '..', 'uploads');
+        const uploadDir = path.join(currentDir, '..', 'uploads');
         if (!fs.existsSync(uploadDir)) {
           fs.mkdirSync(uploadDir, { recursive: true });
         }
