@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { toast } from 'react-toastify';
-import { Loader2 } from 'lucide-react';
+import { Loader2, MapPin, Calendar, UploadCloud, ChevronRight } from 'lucide-react';
 import Input from '../common/Input.jsx';
 import Button from '../common/Button.jsx';
 import Modal from '../common/Modal.jsx';
@@ -100,84 +100,111 @@ export default function TripForm({ initial, onSubmit, submitting }) {
     <form onSubmit={submit} className="space-y-6">
       <Input
         label="Trip name"
+        placeholder="e.g., Summer in Tokyo, Swiss Alps Hiking"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         error={errors.title}
       />
       <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1">
-          Destination
+        <label className="block text-xs uppercase tracking-wider font-semibold text-neu-slate mb-1.5">
+          Destination City
         </label>
         <button
           type="button"
-          className="w-full border border-slate-200 rounded-xl px-4 py-3 text-left flex justify-between items-center"
+          className="w-full bg-[#F8FCFC] border border-[#E2EBEB] shadow-neu-inset hover:border-neu-teal/50 rounded-xl px-4 py-3.5 text-left flex justify-between items-center transition-all group"
           onClick={() => setShowCityModal(true)}
         >
-          <span className={destinationCityName ? "text-dark" : "text-slate-400"}>
-            {destinationCityName || 'Select a destination city'}
+          <span className="flex items-center gap-2.5">
+            <MapPin className="w-4 h-4 text-neu-teal group-hover:scale-110 transition-transform" />
+            <span className={destinationCityName ? "text-neu-navy font-medium" : "text-neu-slate/60"}>
+              {destinationCityName || 'Select a destination city'}
+            </span>
           </span>
+          <ChevronRight className="w-4 h-4 text-neu-slate/60 group-hover:translate-x-0.5 transition-transform" />
         </button>
         {errors.destinationCityId && (
-          <p className="text-red-500 text-xs mt-1">{errors.destinationCityId}</p>
+          <p className="text-red-500 text-xs mt-1.5 font-medium">{errors.destinationCityId}</p>
         )}
       </div>
       <div className="grid sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1">Start</label>
+          <label className="block text-xs uppercase tracking-wider font-semibold text-neu-slate mb-1.5">
+            <span className="flex items-center gap-1.5">
+              <Calendar className="w-3.5 h-3.5 text-neu-teal" />
+              Start Date
+            </span>
+          </label>
           <DatePicker
             selected={startDate}
             onChange={setStartDate}
-            className="w-full border border-slate-200 rounded-xl px-4 py-3"
+            className="w-full bg-[#F8FCFC] border border-[#E2EBEB] shadow-neu-inset focus:bg-white focus:shadow-neu-inset-focus focus:outline-none rounded-xl px-4 py-3 text-neu-navy font-medium transition-all"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1">End</label>
+          <label className="block text-xs uppercase tracking-wider font-semibold text-neu-slate mb-1.5">
+            <span className="flex items-center gap-1.5">
+              <Calendar className="w-3.5 h-3.5 text-neu-cyan" />
+              End Date
+            </span>
+          </label>
           <DatePicker
             selected={endDate}
             onChange={setEndDate}
-            className="w-full border border-slate-200 rounded-xl px-4 py-3"
+            className="w-full bg-[#F8FCFC] border border-[#E2EBEB] shadow-neu-inset focus:bg-white focus:shadow-neu-inset-focus focus:outline-none rounded-xl px-4 py-3 text-neu-navy font-medium transition-all"
           />
         </div>
       </div>
       <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1">Description</label>
+        <label className="block text-xs uppercase tracking-wider font-semibold text-neu-slate mb-1.5">Trip Description & Goals</label>
         <textarea
-          rows={4}
-          className="w-full border border-slate-200 rounded-xl px-4 py-3"
+          rows={3}
+          placeholder="What are the goals of this trip? Favorite spots, packing notes, or vibes..."
+          className="w-full bg-[#F8FCFC] border border-[#E2EBEB] shadow-neu-inset focus:bg-white focus:shadow-neu-inset-focus focus:outline-none rounded-xl px-4 py-3 text-neu-navy placeholder:text-neu-slate/50 transition-all resize-y"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-slate-700 mb-2">Cover photo</label>
-        <label className={`flex flex-col items-center justify-center border-2 border-dashed border-slate-200 rounded-2xl p-8 transition-colors ${uploading ? 'opacity-60 cursor-not-allowed bg-slate-50' : 'cursor-pointer hover:border-primary'}`}>
+        <label className="block text-xs uppercase tracking-wider font-semibold text-neu-slate mb-2">Cover Photo</label>
+        <label className={`flex flex-col items-center justify-center border-2 border-dashed border-[#E2EBEB] bg-[#F8FCFC] rounded-2xl p-6 transition-all ${uploading ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer hover:border-neu-teal hover:bg-neu-mint/20 hover:shadow-neu-raised-sm'}`}>
           <input type="file" accept="image/*" className="hidden" onChange={handleFile} disabled={uploading} />
           {uploading ? (
-            <div className="flex flex-col items-center gap-2 text-primary py-4">
+            <div className="flex flex-col items-center gap-2 text-neu-teal py-4">
               <Loader2 className="w-8 h-8 animate-spin" />
-              <span className="text-sm font-medium">Uploading image...</span>
+              <span className="text-sm font-semibold">Uploading photo to CDN...</span>
             </div>
           ) : coverPhoto ? (
             <div className="relative group w-full flex flex-col items-center">
-              <img src={coverPhoto} alt="Cover preview" className="max-h-48 rounded-xl object-cover shadow-sm" />
-              <span className="text-xs text-muted mt-2 group-hover:text-primary transition-colors">Click or drag new image to replace</span>
+              <img src={coverPhoto} alt="Cover preview" className="max-h-52 w-full max-w-md rounded-xl object-cover shadow-neu-raised-sm border border-[#E2EBEB]" />
+              <span className="text-xs text-neu-slate mt-2 group-hover:text-neu-teal transition-colors font-medium">Click or drag new image to replace</span>
             </div>
           ) : (
-            <span className="text-muted">Drag & drop or click to upload</span>
+            <div className="flex flex-col items-center gap-2 py-4 text-center">
+              <div className="w-12 h-12 rounded-xl bg-neu-mint/60 flex items-center justify-center text-neu-teal shadow-neu-raised-sm">
+                <UploadCloud className="w-6 h-6" />
+              </div>
+              <span className="text-sm font-medium text-neu-navy">Drop your cover image or browse</span>
+              <span className="text-xs text-neu-slate">PNG, JPG, or WebP up to 5MB</span>
+            </div>
           )}
         </label>
       </div>
-      <label className="flex items-center gap-3 cursor-pointer">
-        <input
-          type="checkbox"
-          checked={isPublic}
-          onChange={(e) => setIsPublic(e.target.checked)}
-          className="w-5 h-5 accent-primary"
-        />
-        <span className="text-sm font-medium text-slate-700">Share with community</span>
-      </label>
-      <Button type="submit" className="w-full py-3" disabled={submitting || uploading}>
-        {submitting ? 'Saving…' : 'Save & Continue to Itinerary'}
+      <div className="p-3.5 bg-[#F8FCFC] rounded-xl border border-[#E2EBEB] shadow-neu-inset">
+        <label className="flex items-center gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={isPublic}
+            onChange={(e) => setIsPublic(e.target.checked)}
+            className="w-4 h-4 accent-neu-teal rounded cursor-pointer"
+          />
+          <div>
+            <span className="text-sm font-semibold text-neu-navy block">Share with Colombiator Community</span>
+            <span className="text-xs text-neu-slate block">Allow other travelers to browse your itinerary and clone it for their own adventures.</span>
+          </div>
+        </label>
+      </div>
+      <Button type="submit" variant="primary" size="lg" className="w-full py-3.5 shadow-neu-btn-primary" disabled={submitting || uploading}>
+        {submitting ? 'Saving Journey…' : 'Save & Continue to Itinerary'}
       </Button>
 
       <Modal

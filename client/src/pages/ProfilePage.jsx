@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { User, Shield, KeyRound, AlertTriangle, Camera } from 'lucide-react';
 import Input from '../components/common/Input.jsx';
 import Button from '../components/common/Button.jsx';
 import Card from '../components/common/Card.jsx';
@@ -52,7 +53,7 @@ export default function ProfilePage() {
         isProfilePublic: privacy,
       }),
     onSuccess: async () => {
-      toast.success('Profile saved');
+      toast.success('Profile saved successfully');
       await refreshUser();
       qc.invalidateQueries({ queryKey: ['profile'] });
       setEdit(false);
@@ -68,7 +69,7 @@ export default function ProfilePage() {
     await userService.uploadProfilePhoto(fd);
     await refreshUser();
     qc.invalidateQueries({ queryKey: ['profile'] });
-    toast.success('Photo updated');
+    toast.success('Profile photo updated');
   };
 
   const changePwd = useMutation({
@@ -78,7 +79,7 @@ export default function ProfilePage() {
         newPassword: pwd.next,
       }),
     onSuccess: () => {
-      toast.success('Password updated');
+      toast.success('Password updated successfully');
       setPwd({ current: '', next: '', confirm: '' });
     },
     onError: (e) => toast.error(e.friendlyMessage || 'Could not update password'),
@@ -87,12 +88,16 @@ export default function ProfilePage() {
   const deleteAccount = useMutation({
     mutationFn: () => userService.deleteAccount(),
     onSuccess: async () => {
-      toast.success('Account deleted');
+      toast.success('Account and associated data deleted permanently');
       await logout();
     },
   });
 
   const submitPassword = () => {
+    if (!pwd.current || !pwd.next) {
+      toast.error('Please enter your current and new password');
+      return;
+    }
     if (pwd.next !== pwd.confirm) {
       toast.error('New passwords do not match');
       return;
@@ -102,36 +107,59 @@ export default function ProfilePage() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="max-w-3xl mx-auto space-y-8">
-      <h1 className="text-3xl font-bold tracking-tight">Profile</h1>
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight text-neu-navy font-heading">
+          Account & Profile
+        </h1>
+        <p className="text-xs text-slate-500 mt-1">
+          Manage your personal explorer details, password security, and data preferences.
+        </p>
+      </div>
 
-      <Card className="p-8 flex flex-col sm:flex-row gap-8 items-start">
-        <div className="flex flex-col items-center gap-3">
-          <Avatar src={u?.photo} name={u?.name} size="lg" />
-          <label className="text-sm font-semibold text-primary-dark cursor-pointer">
-            Upload photo
-            <input type="file" accept="image/*" className="hidden" onChange={upload} />
-          </label>
+      {/* Personal Info Card */}
+      <Card className="p-6 sm:p-8 flex flex-col sm:flex-row gap-8 items-start">
+        <div className="flex flex-col items-center gap-3 w-full sm:w-auto">
+          <div className="relative group">
+            <Avatar src={u?.photo} name={u?.name} size="lg" />
+            <label className="absolute inset-0 bg-black/40 rounded-full flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer text-[10px] font-semibold">
+              <Camera className="w-5 h-5 mb-0.5" />
+              Change
+              <input type="file" accept="image/*" className="hidden" onChange={upload} />
+            </label>
+          </div>
+          <span className="text-xs font-semibold text-teal-700">
+            {u?.role === 'admin' ? 'Administrator' : 'Traveler'}
+          </span>
         </div>
+
         <div className="flex-1 space-y-4 w-full">
-          <div className="flex justify-between items-center">
-            <h2 className="font-semibold text-lg">Personal info</h2>
-            <button type="button" className="text-sm text-primary-dark font-medium" onClick={() => setEdit(!edit)}>
-              {edit ? 'Cancel' : 'Edit profile'}
+          <div className="flex justify-between items-center border-b border-[#E2EBEB] pb-3">
+            <h2 className="font-heading font-bold text-base text-neu-navy flex items-center gap-2">
+              <User className="w-4 h-4 text-teal-600" /> Personal Details
+            </h2>
+            <button
+              type="button"
+              className="neu-button text-xs py-1.5 px-3 font-semibold text-teal-800"
+              onClick={() => setEdit(!edit)}
+            >
+              {edit ? 'Cancel' : 'Edit Details'}
             </button>
           </div>
+
           <Input
-            label="Name"
+            label="Full Name"
             value={form.name}
             disabled={!edit}
             onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
           />
-          <Input label="Email" value={u?.email || ''} disabled />
+          <Input label="Email Address (Account ID)" value={u?.email || ''} disabled />
           <Input
-            label="Phone"
+            label="Phone Number"
             value={form.phone}
             disabled={!edit}
             onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
           />
+
           <div className="grid sm:grid-cols-2 gap-4">
             <Input
               label="City"
@@ -146,95 +174,137 @@ export default function ProfilePage() {
               onChange={(e) => setForm((f) => ({ ...f, country: e.target.value }))}
             />
           </div>
+
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Language</label>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">
+              Preferred Language
+            </label>
             <select
-              className="w-full border rounded-xl px-4 py-3"
+              className="w-full bg-[#F8FCFC] border border-[#E2EBEB] shadow-neu-inset rounded-xl px-4 py-3 text-sm text-neu-navy outline-none focus:border-teal-500 disabled:opacity-60"
               disabled={!edit}
               value={form.language}
               onChange={(e) => setForm((f) => ({ ...f, language: e.target.value }))}
             >
-              <option value="en">English</option>
+              <option value="en">English (US/UK)</option>
               <option value="es">Español</option>
               <option value="fr">Français</option>
+              <option value="de">Deutsch</option>
+              <option value="hi">Hindi (हिंदी)</option>
             </select>
           </div>
-          <label className="flex items-center gap-3">
+
+          <label className="flex items-center gap-3 pt-2 cursor-pointer">
             <input
               type="checkbox"
               checked={privacy}
               disabled={!edit}
               onChange={(e) => setPrivacy(e.target.checked)}
-              className="w-5 h-5 accent-primary"
+              className="w-4 h-4 accent-teal-600 rounded"
             />
-            <span className="text-sm text-slate-700">Make profile public</span>
+            <span className="text-xs font-medium text-slate-700">
+              Display my public profile on community itineraries I publish
+            </span>
           </label>
+
           {edit && (
-            <Button type="button" onClick={() => saveProfile.mutate()}>
-              Save changes
-            </Button>
+            <div className="pt-2">
+              <Button type="button" onClick={() => saveProfile.mutate()} disabled={saveProfile.isPending}>
+                {saveProfile.isPending ? 'Saving…' : 'Save Changes'}
+              </Button>
+            </div>
           )}
         </div>
       </Card>
 
-      <Card className="p-8 space-y-4">
-        <h2 className="font-semibold text-lg">Saved destinations</h2>
+      {/* Saved Destinations Card */}
+      <Card className="p-6 sm:p-8 space-y-4">
+        <h2 className="font-heading font-bold text-base text-neu-navy flex items-center gap-2">
+          <Shield className="w-4 h-4 text-teal-600" /> Saved Destinations
+        </h2>
         <div className="flex gap-2 overflow-x-auto pb-2">
           {(u?.savedDestinations || []).map((c) => (
-            <span key={c._id} className="px-3 py-1 rounded-full bg-teal-50 text-sm whitespace-nowrap">
-              {c.name}
+            <span
+              key={c._id || c}
+              className="px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200/70 text-xs font-semibold text-teal-800 whitespace-nowrap shadow-sm"
+            >
+              {c.name || c}
             </span>
           ))}
           {!(u?.savedDestinations || []).length && (
-            <p className="text-sm text-muted">Save cities from Explore to see them here.</p>
+            <p className="text-xs text-slate-500">
+              You haven&apos;t bookmarked any cities yet. Click &quot;Explore Cities&quot; to discover and save destinations.
+            </p>
           )}
         </div>
       </Card>
 
-      <Card className="p-8 space-y-4">
-        <h2 className="font-semibold text-lg">Change password</h2>
+      {/* Password Update Card */}
+      <Card className="p-6 sm:p-8 space-y-4">
+        <h2 className="font-heading font-bold text-base text-neu-navy flex items-center gap-2 border-b border-[#E2EBEB] pb-3">
+          <KeyRound className="w-4 h-4 text-teal-600" /> Update Password
+        </h2>
         <Input
           type="password"
-          label="Current password"
+          label="Current Password"
+          placeholder="Enter current password"
           value={pwd.current}
           onChange={(e) => setPwd((p) => ({ ...p, current: e.target.value }))}
         />
-        <Input
-          type="password"
-          label="New password"
-          value={pwd.next}
-          onChange={(e) => setPwd((p) => ({ ...p, next: e.target.value }))}
-        />
-        <Input
-          type="password"
-          label="Confirm new password"
-          value={pwd.confirm}
-          onChange={(e) => setPwd((p) => ({ ...p, confirm: e.target.value }))}
-        />
-        <Button type="button" variant="outline" onClick={submitPassword}>
-          Update password
-        </Button>
-      </Card>
-
-      <Card className="p-8 border border-red-200/80 bg-red-50/20 space-y-4">
-        <div>
-          <h2 className="font-semibold text-lg text-error">Danger Zone · Account Deletion</h2>
-          <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-            Permanently delete your user profile and all associated data records (including all trips, itineraries, packing checklists, and private notes). This action cannot be undone. Read our{' '}
-            <Link to="/data-deletion" className="text-teal-700 underline font-semibold">
-              Data Deletion & Retention Policy
-            </Link>.
-          </p>
+        <div className="grid sm:grid-cols-2 gap-4">
+          <Input
+            type="password"
+            label="New Password"
+            placeholder="At least 6 characters"
+            value={pwd.next}
+            onChange={(e) => setPwd((p) => ({ ...p, next: e.target.value }))}
+          />
+          <Input
+            type="password"
+            label="Confirm New Password"
+            placeholder="Re-type new password"
+            value={pwd.confirm}
+            onChange={(e) => setPwd((p) => ({ ...p, confirm: e.target.value }))}
+          />
         </div>
+        <button
+          type="button"
+          className="neu-button text-xs py-2.5 px-4 font-semibold text-teal-800"
+          onClick={submitPassword}
+          disabled={changePwd.isPending}
+        >
+          {changePwd.isPending ? 'Updating…' : 'Update Password'}
+        </button>
+      </Card>
+
+      {/* Danger Zone: Account Deletion */}
+      <Card className="p-6 sm:p-8 border border-red-200/90 bg-red-50/20 space-y-4">
+        <div className="flex items-start gap-3">
+          <div className="w-9 h-9 rounded-xl bg-red-100 flex items-center justify-center text-red-600 shrink-0">
+            <AlertTriangle className="w-5 h-5" />
+          </div>
+          <div>
+            <h2 className="font-heading font-bold text-base text-red-600">
+              Danger Zone · Irreversible Account Deletion
+            </h2>
+            <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+              Permanently eradicate your account and all associated personal data (including all personal itineraries, stops, checklists, and private notes). This action cannot be undone. Read our{' '}
+              <Link to="/data-deletion" className="text-teal-700 underline font-semibold">
+                Data Deletion & Retention Instructions
+              </Link>.
+            </p>
+          </div>
+        </div>
+
         <Button variant="danger" type="button" onClick={() => setDelOpen(true)}>
-          Delete Account Permanently
+          Delete My Account Permanently
         </Button>
       </Card>
 
+      {/* Deletion Confirmation Modal */}
       <Modal
         open={delOpen}
         onClose={() => setDelOpen(false)}
-        title="Delete account?"
+        title="Confirm Irreversible Account Deletion"
         footer={
           <div className="flex gap-2 justify-end">
             <Button variant="outline" onClick={() => setDelOpen(false)}>
@@ -242,18 +312,23 @@ export default function ProfilePage() {
             </Button>
             <Button
               variant="danger"
-              disabled={delEmail !== u?.email}
+              disabled={delEmail !== u?.email || deleteAccount.isPending}
               onClick={() => deleteAccount.mutate()}
             >
-              Delete permanently
+              {deleteAccount.isPending ? 'Deleting…' : 'Confirm Permanent Deletion'}
             </Button>
           </div>
         }
       >
-        <p className="mb-3 text-sm text-slate-600">
-          Type your email <strong>{u?.email}</strong> to confirm.
+        <p className="mb-3 text-xs text-slate-600 leading-relaxed">
+          To prevent accidental deletion, please type your account email address{' '}
+          <strong className="text-neu-navy">{u?.email}</strong> below:
         </p>
-        <Input value={delEmail} onChange={(e) => setDelEmail(e.target.value)} />
+        <Input
+          placeholder="Enter your email to confirm"
+          value={delEmail}
+          onChange={(e) => setDelEmail(e.target.value)}
+        />
       </Modal>
     </motion.div>
   );

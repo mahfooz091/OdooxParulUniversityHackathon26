@@ -40,16 +40,29 @@ export default function CreateTripPage() {
   };
 
   return (
-    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="max-w-2xl mx-auto">
-      <div className="flex gap-2 mb-8 text-sm font-medium text-muted">
-        <span className="text-primary-dark">① Trip Details</span>
-        <span>→</span>
-        <span>② Stops</span>
-        <span>→</span>
-        <span>③ Budget</span>
+    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl mx-auto pb-12">
+      <div className="flex items-center justify-between gap-3 mb-6 p-3 bg-white/80 backdrop-blur-sm rounded-2xl border border-[#E2EBEB] shadow-neu-raised-sm text-xs sm:text-sm font-medium text-neu-slate">
+        <span className="flex items-center gap-1.5 text-neu-teal font-semibold px-2 py-1 bg-neu-mint/50 rounded-lg">
+          <span className="w-5 h-5 rounded-full bg-neu-teal text-white flex items-center justify-center text-xs">1</span>
+          Trip Details
+        </span>
+        <span className="text-neu-slate/40">→</span>
+        <span className="flex items-center gap-1.5 px-2 py-1">
+          <span className="w-5 h-5 rounded-full bg-[#E2EBEB] text-neu-slate flex items-center justify-center text-xs">2</span>
+          Stops
+        </span>
+        <span className="text-neu-slate/40">→</span>
+        <span className="flex items-center gap-1.5 px-2 py-1">
+          <span className="w-5 h-5 rounded-full bg-[#E2EBEB] text-neu-slate flex items-center justify-center text-xs">3</span>
+          Budget
+        </span>
       </div>
-      <Card className="p-8">
-        <h1 className="text-2xl font-bold mb-6 tracking-tight">Create a trip</h1>
+      <Card className="p-6 sm:p-10 border border-[#E2EBEB] shadow-neu-raised bg-white">
+        <div className="mb-8">
+          <span className="text-xs uppercase tracking-wider font-semibold text-neu-teal">Step 1 of 3</span>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-neu-navy tracking-tight mt-1">Design Your Next Journey</h1>
+          <p className="text-sm text-neu-slate mt-1">Set the essentials for your adventure. You can invite friends, add daily stops, and customize expenses right after.</p>
+        </div>
         <TripForm onSubmit={handleCreate} submitting={loading} />
       </Card>
     </motion.div>

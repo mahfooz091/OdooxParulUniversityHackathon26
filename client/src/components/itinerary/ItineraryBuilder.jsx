@@ -155,7 +155,7 @@ export default function ItineraryBuilder({
 
         <button
           type="button"
-          className="fixed bottom-24 lg:bottom-10 right-6 z-30 px-6 py-4 rounded-full bg-primary text-navy font-semibold shadow-lg hover:brightness-110 transition-all active:scale-[0.97]"
+          className="fixed bottom-24 lg:bottom-10 right-6 z-30 px-6 py-3.5 rounded-full bg-gradient-to-r from-neu-teal to-neu-cyan text-white font-bold shadow-neu-btn-primary hover:shadow-neu-raised transition-all active:scale-[0.97] flex items-center gap-2 border border-white/20"
           onClick={() => setCityOpen(true)}
         >
           + Add another stop

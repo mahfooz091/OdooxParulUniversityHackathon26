@@ -1,14 +1,16 @@
 export default function Badge({ children, variant = 'default', className = '' }) {
   const styles = {
-    default: 'bg-slate-100 text-slate-700',
-    success: 'bg-emerald-100 text-emerald-800',
-    warning: 'bg-amber-100 text-amber-900',
-    error: 'bg-red-100 text-red-800',
-    teal: 'bg-teal-100 text-teal-900',
+    default: 'bg-white/90 text-slate-700 border border-[#E2EBEB] shadow-sm',
+    success: 'bg-emerald-50 text-emerald-800 border border-emerald-200/60 shadow-sm',
+    warning: 'bg-amber-50 text-amber-900 border border-amber-200/60 shadow-sm',
+    error: 'bg-red-50 text-red-800 border border-red-200/60 shadow-sm',
+    teal: 'bg-teal-50 text-teal-800 border border-teal-200/60 shadow-sm font-semibold',
+    neu: 'bg-white text-slate-700 border border-[#E2EBEB] shadow-neu-raised-sm',
   };
+
   return (
     <span
-      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${styles[variant]} ${className}`}
+      className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium tracking-wide ${styles[variant] || styles.default} ${className}`}
     >
       {children}
     </span>

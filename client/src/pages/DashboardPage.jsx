@@ -1,6 +1,9 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { PlusCircle, Compass } from 'lucide-react';
 import WelcomeBanner from '../components/dashboard/WelcomeBanner.jsx';
 import TripCard from '../components/dashboard/TripCard.jsx';
 import RecommendedCities from '../components/dashboard/RecommendedCities.jsx';
@@ -13,7 +16,6 @@ import { useAuth } from '../context/AuthContext.jsx';
 import * as tripService from '../services/tripService.js';
 import * as cityService from '../services/cityService.js';
 import * as budgetService from '../services/budgetService.js';
-import { useState } from 'react';
 
 export default function DashboardPage() {
   const { user } = useAuth();
@@ -57,21 +59,65 @@ export default function DashboardPage() {
       <WelcomeBanner name={user?.name} />
 
       <section>
-        <h2 className="text-xl font-bold tracking-tight mb-4">Popular destinations</h2>
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h2 className="text-xl font-bold tracking-tight text-neu-navy font-heading">
+              Popular Destinations
+            </h2>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Explore curated global cities ready to be added to your itinerary.
+            </p>
+          </div>
+          <Link
+            to="/cities"
+            className="text-xs font-semibold text-teal-700 hover:text-teal-800 flex items-center gap-1"
+          >
+            <Compass className="w-3.5 h-3.5" />
+            <span>Explore All</span>
+          </Link>
+        </div>
         <RecommendedCities cities={citiesQ.data?.cities} loading={citiesQ.isLoading} />
       </section>
 
       <section className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold tracking-tight">Previous trips</h2>
+            <div>
+              <h2 className="text-xl font-bold tracking-tight text-neu-navy font-heading">
+                Previous Trips
+              </h2>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Active and completed itineraries saved to your account.
+              </p>
+            </div>
+            {trips.length > 0 && (
+              <Link
+                to="/trips/new"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-[#E2EBEB] shadow-neu-btn text-xs font-semibold text-teal-800 hover:bg-[#F8FCFC] active:shadow-neu-btn-pressed transition-all"
+              >
+                <PlusCircle className="w-3.5 h-3.5 text-teal-600" />
+                New Trip
+              </Link>
+            )}
           </div>
+
           {tripsQ.isLoading ? (
-            <Loader />
+            <div className="py-12">
+              <Loader />
+            </div>
           ) : trips.length === 0 ? (
             <EmptyState
-              title="No trips yet"
-              description="Start planning your first adventure with Colombiator."
+              title="No Trips Yet"
+              description="You haven't planned any journeys yet. Build your first multi-stop itinerary with smart day-by-day scheduling."
+              action={
+                <Link
+                  to="/trips/new"
+                  className="neu-button-primary inline-flex items-center gap-2 text-sm font-semibold"
+                >
+                  <PlusCircle className="w-4 h-4" />
+                  Plan Your First Trip
+                </Link>
+              }
             />
           ) : (
             <div className="grid sm:grid-cols-2 gap-6">
@@ -82,15 +128,32 @@ export default function DashboardPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.08 }}
                 >
-                  <TripCard trip={trip} stagger={i} onDelete={setDeleteTrip} />
+                  <TripCard trip={trip} onDelete={setDeleteTrip} />
                 </motion.div>
               ))}
             </div>
           )}
         </div>
-        <div>
-          {ongoing && budgetQ.data?.budget && (
+
+        <div className="space-y-6">
+          {ongoing && budgetQ.data?.budget ? (
             <BudgetHighlight trip={ongoing} budget={budgetQ.data.budget} />
+          ) : (
+            <div className="neu-card p-6 text-center space-y-3">
+              <div className="w-10 h-10 rounded-xl bg-teal-50 border border-teal-200/60 shadow-sm mx-auto flex items-center justify-center text-teal-600">
+                <Compass className="w-5 h-5" />
+              </div>
+              <h3 className="font-heading font-bold text-sm text-neu-navy">Smart Travel Assistant</h3>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Add stops and budgets to your active trips to view automated spending pulse breakdowns and cost metrics.
+              </p>
+              <Link
+                to="/trips/new"
+                className="inline-flex items-center justify-center w-full py-2 rounded-xl bg-white border border-[#E2EBEB] shadow-neu-btn text-xs font-semibold text-teal-800 hover:bg-[#F8FCFC] active:shadow-neu-btn-pressed transition-all"
+              >
+                Start New Itinerary
+              </Link>
+            </div>
           )}
         </div>
       </section>
@@ -98,20 +161,20 @@ export default function DashboardPage() {
       <Modal
         open={Boolean(deleteTrip)}
         onClose={() => setDeleteTrip(null)}
-        title="Delete trip?"
+        title="Delete Trip Permanently?"
         footer={
           <div className="flex gap-3 justify-end">
             <Button variant="outline" onClick={() => setDeleteTrip(null)}>
               Cancel
             </Button>
             <Button variant="danger" onClick={confirmDelete}>
-              Confirm delete
+              Confirm Delete
             </Button>
           </div>
         }
       >
-        <p className="text-slate-600">
-          This will permanently delete <strong>{deleteTrip?.title}</strong> and related stops.
+        <p className="text-slate-600 text-sm leading-relaxed">
+          Are you sure you want to permanently delete <strong>{deleteTrip?.title}</strong>? All associated stops, day schedules, and custom notes will be removed from your account.
         </p>
       </Modal>
     </motion.div>

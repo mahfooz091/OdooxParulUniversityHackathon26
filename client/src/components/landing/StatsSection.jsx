@@ -3,17 +3,9 @@ import { CAPABILITIES } from '../../data/landingContent.js';
 
 export default function StatsSection() {
   return (
-    <section className="relative py-16 md:py-20 overflow-hidden bg-navy text-white">
-      <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy-light to-ocean opacity-[0.97]" />
-      <div
-        className="absolute inset-0 opacity-25"
-        style={{
-          backgroundImage: `radial-gradient(circle at 20% 50%, rgba(6,182,212,0.4) 0%, transparent 50%),
-            radial-gradient(circle at 80% 80%, rgba(20,184,166,0.35) 0%, transparent 45%)`,
-        }}
-      />
+    <section className="relative py-14 md:py-18 overflow-hidden bg-[#F4FAFA]">
       <div className="relative mx-auto max-w-6xl px-4 md:px-6">
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-6 text-center">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6 text-center">
           {CAPABILITIES.map((item, i) => (
             <motion.div
               key={item.label}
@@ -21,12 +13,12 @@ export default function StatsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08 }}
-              className="p-4"
+              className="neu-card p-6 rounded-2xl flex flex-col items-center justify-center border border-[#E2EBEB] shadow-neu-raised-sm hover:shadow-neu-raised transition-all"
             >
-              <p className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight drop-shadow-sm">
+              <p className="font-display text-2xl sm:text-3xl font-bold text-gradient-brand tracking-tight">
                 {item.value}
               </p>
-              <p className="mt-2 font-heading text-xs sm:text-sm font-semibold uppercase tracking-wider text-teal-200/90">
+              <p className="mt-2 font-heading text-xs font-semibold uppercase tracking-wider text-slate-500">
                 {item.label}
               </p>
             </motion.div>

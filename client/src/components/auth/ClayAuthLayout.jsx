@@ -9,12 +9,12 @@ export default function ClayAuthLayout({
   subtitle,
 }) {
   return (
-    <div className="min-h-screen bg-[#F3F6FA] text-slate-800 relative overflow-hidden flex flex-col justify-between selection:bg-teal-200 selection:text-teal-900">
-      {/* Soft Pastel Ambient Spheres */}
-      <div className="absolute top-[-100px] left-[-80px] w-96 h-96 rounded-full bg-teal-100/60 blur-3xl pointer-events-none" />
-      <div className="absolute top-[20%] right-[-100px] w-[420px] h-[420px] rounded-full bg-sky-100/60 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-[-100px] left-[25%] w-96 h-96 rounded-full bg-indigo-100/50 blur-3xl pointer-events-none" />
-      <div className="absolute top-[60%] left-[-80px] w-80 h-80 rounded-full bg-amber-100/40 blur-3xl pointer-events-none" />
+    <div className="min-h-screen bg-[#F4FAFA] text-neu-navy relative overflow-hidden flex flex-col justify-between selection:bg-neu-teal/20 selection:text-neu-teal">
+      {/* Soft Ambient Glows */}
+      <div className="absolute top-[-100px] left-[-80px] w-96 h-96 rounded-full bg-neu-mint/60 blur-3xl pointer-events-none" />
+      <div className="absolute top-[20%] right-[-100px] w-[420px] h-[420px] rounded-full bg-cyan-100/50 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-[-100px] left-[25%] w-96 h-96 rounded-full bg-teal-100/40 blur-3xl pointer-events-none" />
+      <div className="absolute top-[60%] left-[-80px] w-80 h-80 rounded-full bg-emerald-100/30 blur-3xl pointer-events-none" />
 
       {/* Top Bar Navigation */}
       <header className="relative z-20 max-w-7xl mx-auto w-full px-6 py-6 flex items-center justify-between">
@@ -23,7 +23,7 @@ export default function ClayAuthLayout({
         </Link>
         <Link
           to="/"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/90 text-sm font-semibold text-slate-600 shadow-clay-card-sm border border-white hover:text-teal-600 hover:shadow-clay-btn-secondary transition-all"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-sm font-semibold text-neu-slate shadow-neu-raised-sm border border-[#E2EBEB] hover:text-neu-teal hover:shadow-neu-raised transition-all"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Home</span>
@@ -70,8 +70,8 @@ export default function ClayAuthLayout({
       </main>
 
       {/* Footer */}
-      <footer className="relative z-10 py-6 text-center text-xs text-slate-400">
-        <p>© {new Date().getFullYear()} Colombiator. Designed with modern Claymorphism for travel explorers.</p>
+      <footer className="relative z-10 py-6 text-center text-xs text-neu-slate/70">
+        <p>© {new Date().getFullYear()} Colombiator. Collaborative travel planning and smart itineraries.</p>
       </footer>
     </div>
   );

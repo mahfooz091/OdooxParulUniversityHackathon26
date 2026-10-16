@@ -17,39 +17,39 @@ export default function BudgetBreakdown({
     <div className="space-y-4">
       {fields.map((f) => (
         <div key={f.key}>
-          <label className="block text-sm font-medium text-slate-700 mb-1">{f.label}</label>
+          <label className="block text-xs uppercase tracking-wider font-semibold text-neu-slate mb-1">{f.label}</label>
           <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted">$</span>
+            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neu-slate font-medium text-sm">$</span>
             <input
               type="number"
               min={0}
-              className="w-full border border-slate-200 rounded-xl pl-8 pr-4 py-3 outline-none focus:ring-2 focus:ring-teal-400"
+              className="w-full bg-[#F8FCFC] border border-[#E2EBEB] shadow-neu-inset focus:bg-white focus:shadow-neu-inset-focus focus:border-neu-teal rounded-xl pl-8 pr-4 py-2.5 text-neu-navy font-semibold outline-none transition-all"
               value={values[f.key] ?? 0}
               onChange={(e) => onChange(f.key, Number(e.target.value))}
             />
           </div>
         </div>
       ))}
-      <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1">Daily limit</label>
+      <div className="pt-2 border-t border-[#E2EBEB]">
+        <label className="block text-xs uppercase tracking-wider font-semibold text-neu-slate mb-1">Daily limit</label>
         <div className="relative">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted">$</span>
+          <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neu-slate font-medium text-sm">$</span>
           <input
             type="number"
             min={0}
-            className="w-full border border-slate-200 rounded-xl pl-8 pr-4 py-3 outline-none focus:ring-2 focus:ring-teal-400"
+            className="w-full bg-[#F8FCFC] border border-[#E2EBEB] shadow-neu-inset focus:bg-white focus:shadow-neu-inset-focus focus:border-neu-teal rounded-xl pl-8 pr-4 py-2.5 text-neu-navy font-semibold outline-none transition-all"
             value={values.dailyLimit ?? 0}
             onChange={(e) => onChange('dailyLimit', Number(e.target.value))}
           />
         </div>
       </div>
       <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1">Cost per person multiplier</label>
+        <label className="block text-xs uppercase tracking-wider font-semibold text-neu-slate mb-1">Cost per person multiplier</label>
         <input
           type="number"
           step={0.1}
           min={0.1}
-          className="w-full border border-slate-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-teal-400"
+          className="w-full bg-[#F8FCFC] border border-[#E2EBEB] shadow-neu-inset focus:bg-white focus:shadow-neu-inset-focus focus:border-neu-teal rounded-xl px-4 py-2.5 text-neu-navy font-semibold outline-none transition-all"
           value={costPerPersonMultiplier}
           onChange={(e) => onMultiplierChange(Number(e.target.value))}
         />

@@ -11,7 +11,19 @@ export default {
         navy: { DEFAULT: '#0B1426', light: '#162038', muted: '#1E3A5F' },
         ocean: { DEFAULT: '#0E7490', light: '#06B6D4' },
         emerald: { DEFAULT: '#10B981', soft: '#D1FAE5' },
-        surface: '#F8FAFC',
+        surface: '#F4FAFA',
+        neu: {
+          bg: '#F4FAFA',
+          surface: '#FFFFFF',
+          mint: '#EBF7F5',
+          teal: '#12B8A9',
+          cyan: '#06B6D4',
+          navy: '#111B30',
+          slate: '#586780',
+          border: '#E2EBEB',
+          borderDark: '#D1DFDF',
+          muted: '#8C9BAE',
+        },
         glass: { border: 'rgba(255,255,255,0.12)', fill: 'rgba(255,255,255,0.06)' },
         clay: {
           bg: '#F3F6FA',
@@ -22,7 +34,7 @@ export default {
           lavender: '#F1ECFD',
           peach: '#FDF2EB',
         },
-        muted: '#94A3B8',
+        muted: '#586780',
         error: '#EF4444',
         success: '#22C55E',
       },
@@ -32,30 +44,46 @@ export default {
         heading: ['Poppins', 'system-ui', 'sans-serif'],
       },
       backgroundImage: {
-        'gradient-brand': 'linear-gradient(135deg, #14B8A6 0%, #06B6D4 50%, #0E7490 100%)',
+        'gradient-brand': 'linear-gradient(135deg, #12B8A9 0%, #06B6D4 50%, #0E7490 100%)',
         'gradient-hero':
-          'radial-gradient(ellipse 80% 50% at 50% -20%, rgba(20, 184, 166, 0.25), transparent), radial-gradient(ellipse 60% 40% at 100% 0%, rgba(6, 182, 212, 0.2), transparent), radial-gradient(ellipse 50% 30% at 0% 100%, rgba(16, 185, 129, 0.15), transparent)',
+          'radial-gradient(ellipse 80% 50% at 50% -20%, rgba(18, 184, 169, 0.22), transparent), radial-gradient(ellipse 60% 40% at 100% 0%, rgba(6, 182, 212, 0.18), transparent), radial-gradient(ellipse 50% 30% at 0% 100%, rgba(18, 184, 169, 0.12), transparent)',
         'gradient-mesh':
-          'linear-gradient(180deg, #F0FDFA 0%, #ECFEFF 40%, #F8FAFC 100%)',
-        'glow-cyan': 'radial-gradient(circle, rgba(20, 184, 166, 0.4) 0%, transparent 70%)',
+          'linear-gradient(180deg, #F4FAFA 0%, #EBF7F5 40%, #F4FAFA 100%)',
+        'glow-cyan': 'radial-gradient(circle, rgba(18, 184, 169, 0.35) 0%, transparent 70%)',
       },
       boxShadow: {
-        glow: '0 0 40px -10px rgba(20, 184, 166, 0.5)',
-        'glow-sm': '0 0 24px -8px rgba(6, 182, 212, 0.45)',
-        glass: '0 8px 32px rgba(11, 20, 38, 0.08)',
-        card: '0 4px 6px -1px rgba(11, 20, 38, 0.06), 0 2px 4px -2px rgba(11, 20, 38, 0.04)',
+        glow: '0 0 40px -10px rgba(18, 184, 169, 0.45)',
+        'glow-sm': '0 0 24px -8px rgba(6, 182, 212, 0.4)',
+        glass: '0 8px 32px rgba(17, 27, 48, 0.08)',
+        card: '8px 8px 20px rgba(40, 70, 80, 0.08), -8px -8px 20px rgba(255, 255, 255, 0.9)',
+        'neu-raised':
+          '8px 8px 20px rgba(40, 70, 80, 0.08), -8px -8px 20px rgba(255, 255, 255, 0.9)',
+        'neu-raised-sm':
+          '5px 5px 12px rgba(40, 70, 80, 0.07), -5px -5px 12px rgba(255, 255, 255, 0.95)',
+        'neu-raised-lg':
+          '14px 14px 30px rgba(40, 70, 80, 0.1), -12px -12px 28px rgba(255, 255, 255, 0.95)',
+        'neu-inset':
+          'inset 3px 3px 7px rgba(40, 70, 80, 0.08), inset -3px -3px 7px rgba(255, 255, 255, 0.9)',
+        'neu-inset-focus':
+          'inset 2px 2px 5px rgba(18, 184, 169, 0.18), inset -2px -2px 5px rgba(255, 255, 255, 0.95), 0 0 0 3px rgba(18, 184, 169, 0.25)',
+        'neu-btn':
+          '5px 5px 14px rgba(40, 70, 80, 0.1), -5px -5px 14px rgba(255, 255, 255, 0.95)',
+        'neu-btn-primary':
+          '0 8px 20px -3px rgba(18, 184, 169, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.4), inset 0 -2px 4px rgba(15, 118, 110, 0.3)',
+        'neu-btn-pressed':
+          'inset 2px 2px 5px rgba(40, 70, 80, 0.12), inset -2px -2px 5px rgba(255, 255, 255, 0.9)',
         'clay-card':
-          '16px 16px 36px rgba(180, 195, 215, 0.45), -12px -12px 28px rgba(255, 255, 255, 0.95), inset 2px 2px 4px rgba(255, 255, 255, 0.9), inset -2px -2px 4px rgba(180, 195, 215, 0.2)',
+          '8px 8px 20px rgba(40, 70, 80, 0.08), -8px -8px 20px rgba(255, 255, 255, 0.9)',
         'clay-card-sm':
-          '10px 10px 22px rgba(180, 195, 215, 0.35), -8px -8px 18px rgba(255, 255, 255, 0.95), inset 1px 1px 3px rgba(255, 255, 255, 0.8), inset -1px -1px 3px rgba(180, 195, 215, 0.15)',
+          '5px 5px 12px rgba(40, 70, 80, 0.07), -5px -5px 12px rgba(255, 255, 255, 0.95)',
         'clay-btn':
-          '0 10px 22px -3px rgba(13, 148, 136, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.5), inset 0 -3px 4px rgba(15, 118, 110, 0.35)',
+          '0 8px 20px -3px rgba(18, 184, 169, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.4), inset 0 -2px 4px rgba(15, 118, 110, 0.3)',
         'clay-btn-secondary':
-          '8px 8px 18px rgba(180, 195, 215, 0.35), -6px -6px 16px rgba(255, 255, 255, 0.95), inset 2px 2px 4px rgba(255, 255, 255, 0.9), inset -2px -2px 4px rgba(180, 195, 215, 0.2)',
+          '5px 5px 14px rgba(40, 70, 80, 0.1), -5px -5px 14px rgba(255, 255, 255, 0.95)',
         'clay-inset':
-          'inset 3px 3px 6px rgba(180, 195, 215, 0.35), inset -2px -2px 5px rgba(255, 255, 255, 0.95)',
+          'inset 3px 3px 7px rgba(40, 70, 80, 0.08), inset -3px -3px 7px rgba(255, 255, 255, 0.9)',
         'clay-inset-focus':
-          'inset 2px 2px 5px rgba(13, 148, 136, 0.15), inset -2px -2px 4px rgba(255, 255, 255, 0.95), 0 0 0 3px rgba(20, 184, 166, 0.3)',
+          'inset 2px 2px 5px rgba(18, 184, 169, 0.18), inset -2px -2px 5px rgba(255, 255, 255, 0.95), 0 0 0 3px rgba(18, 184, 169, 0.25)',
       },
       animation: {
         float: 'float 6s ease-in-out infinite',

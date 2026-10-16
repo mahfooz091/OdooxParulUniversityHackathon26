@@ -90,23 +90,23 @@ export default function PackingChecklistPage() {
         </Button>
       </div>
 
-      <div className="h-3 rounded-full bg-slate-100 overflow-hidden">
+      <div className="h-3.5 rounded-full bg-[#E8F0F0] shadow-neu-inset overflow-hidden p-0.5 border border-[#E2EBEB]">
         <div
-          className="h-full bg-primary rounded-full transition-all"
+          className="h-full bg-gradient-to-r from-neu-teal to-neu-cyan rounded-full transition-all duration-500"
           style={{ width: `${items.length ? (packed / items.length) * 100 : 0}%` }}
         />
       </div>
 
-      <Card className="p-6 space-y-4">
+      <Card className="p-6 border border-[#E2EBEB] shadow-neu-raised bg-white">
         <div className="flex flex-col sm:flex-row gap-3">
           <Input
-            placeholder="New item..."
+            placeholder="Add new essential item..."
             value={label}
             onChange={(e) => setLabel(e.target.value)}
             className="flex-1"
           />
           <select
-            className="border border-slate-200 rounded-xl px-4 py-3"
+            className="bg-[#F8FCFC] border border-[#E2EBEB] shadow-neu-inset focus:bg-white focus:shadow-neu-inset-focus focus:border-neu-teal rounded-xl px-4 py-3 text-neu-navy font-medium text-sm outline-none transition-all"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
@@ -116,7 +116,12 @@ export default function PackingChecklistPage() {
               </option>
             ))}
           </select>
-          <Button type="button" onClick={() => label.trim() && addItem.mutate()} className="sm:w-40">
+          <Button
+            type="button"
+            variant="primary"
+            onClick={() => label.trim() && addItem.mutate()}
+            className="sm:w-36 shadow-neu-btn-primary"
+          >
             Add item
           </Button>
         </div>
@@ -124,15 +129,19 @@ export default function PackingChecklistPage() {
 
       <div className="space-y-6">
         {grouped.map((g) => (
-          <Card key={g.id} className="p-5">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="font-bold text-lg">
-                {g.emoji} {g.label}
+          <Card key={g.id} className="p-5 border border-[#E2EBEB] shadow-neu-raised bg-white">
+            <div className="flex justify-between items-center mb-4 pb-2 border-b border-[#E2EBEB]/60">
+              <h3 className="font-bold text-lg text-neu-navy flex items-center gap-2">
+                <span>{g.emoji}</span>
+                <span>{g.label}</span>
+                <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-[#F4FAFA] border border-[#E2EBEB] text-neu-slate">
+                  {g.items.filter((i) => i.isPacked).length}/{g.items.length}
+                </span>
               </h3>
               <div className="flex gap-2 text-xs">
                 <button
                   type="button"
-                  className="underline text-primary-dark"
+                  className="px-2.5 py-1 rounded-lg text-neu-teal font-semibold hover:bg-neu-mint/50 transition-colors"
                   onClick={() =>
                     g.items.forEach((it) => toggle.mutate({ itemId: it._id, isPacked: true }))
                   }
@@ -141,7 +150,7 @@ export default function PackingChecklistPage() {
                 </button>
                 <button
                   type="button"
-                  className="underline text-muted"
+                  className="px-2.5 py-1 rounded-lg text-neu-slate hover:text-neu-navy hover:bg-[#F4FAFA] transition-colors"
                   onClick={() =>
                     g.items.forEach((it) => toggle.mutate({ itemId: it._id, isPacked: false }))
                   }
@@ -152,25 +161,28 @@ export default function PackingChecklistPage() {
             </div>
             <ul className="space-y-2">
               {g.items.map((it) => (
-                <li key={it._id} className="flex items-center gap-3 py-2 border-b border-slate-50 last:border-0">
+                <li
+                  key={it._id}
+                  className="flex items-center gap-3 py-2 px-3 rounded-xl border border-transparent hover:border-[#E2EBEB] hover:bg-[#F8FCFC] transition-all"
+                >
                   <input
                     type="checkbox"
                     checked={it.isPacked}
                     onChange={(e) =>
                       toggle.mutate({ itemId: it._id, isPacked: e.target.checked })
                     }
-                    className="w-5 h-5 accent-primary"
+                    className="w-4 h-4 accent-neu-teal rounded cursor-pointer"
                   />
                   <span
-                    className={`flex-1 transition-all ${
-                      it.isPacked ? 'line-through text-muted' : 'text-dark'
+                    className={`flex-1 text-sm transition-all ${
+                      it.isPacked ? 'line-through text-neu-slate/50 font-normal' : 'text-neu-navy font-medium'
                     }`}
                   >
                     {it.label}
                   </span>
                   <button
                     type="button"
-                    className="text-error text-sm"
+                    className="text-red-500 hover:text-red-700 text-xs font-semibold px-2 py-1 rounded-lg hover:bg-red-50 transition-colors"
                     onClick={() => removeItem.mutate(it._id)}
                   >
                     Remove
@@ -178,7 +190,7 @@ export default function PackingChecklistPage() {
                 </li>
               ))}
               {g.items.length === 0 && (
-                <p className="text-sm text-muted">No items in this category yet.</p>
+                <p className="text-sm text-neu-slate/60 py-2 italic text-center">No items in this category yet.</p>
               )}
             </ul>
           </Card>

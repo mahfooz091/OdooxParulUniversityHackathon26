@@ -29,7 +29,7 @@ export default function ItineraryBuilderPage() {
         </div>
         <Link
           to={`/trips/${trip._id}/view`}
-          className="px-5 py-3 rounded-xl bg-dark text-white font-semibold hover:brightness-110 transition-all min-h-[44px] inline-flex items-center"
+          className="px-5 py-2.5 rounded-xl bg-white border border-[#E2EBEB] text-neu-navy font-bold shadow-neu-raised-sm hover:shadow-neu-raised hover:text-neu-teal transition-all min-h-[44px] inline-flex items-center gap-2"
         >
           Preview itinerary
         </Link>

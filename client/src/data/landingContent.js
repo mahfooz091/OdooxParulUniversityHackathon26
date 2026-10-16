@@ -12,7 +12,7 @@ export const FALLBACK_DESTINATIONS = [
     country: 'Greece',
     region: 'Mediterranean',
     image:
-      'https://images.unsplash.com/photo-1613395877344-13d4c79e4284?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=800&q=80',
     description: 'Iconic whitewashed caldera views, Aegean sunsets, and coastal walking paths.',
     highlight: 'Cliffside Walks & Island Sunsets',
   },
@@ -32,7 +32,7 @@ export const FALLBACK_DESTINATIONS = [
     country: 'Maldives',
     region: 'Indian Ocean',
     image:
-      'https://images.unsplash.com/photo-1514282401047-d79b71acbe92?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1512100356356-de1b84283e18?auto=format&fit=crop&w=800&q=80',
     description: 'Pristine coral atolls, marine biodiversity, and turquoise lagoon routes.',
     highlight: 'Lagoon Exploration & Marine Reefs',
   },
@@ -120,7 +120,7 @@ export const GALLERY_IMAGES = [
   'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=600&q=80',
   'https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&w=600&q=80',
   'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80',
-  'https://images.unsplash.com/photo-1501785884341-83b4d405da24?auto=format&fit=crop&w=600&q=80',
+  'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=600&q=80',
   'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=600&q=80',
   'https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=600&q=80',
   'https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?auto=format&fit=crop&w=600&q=80',
