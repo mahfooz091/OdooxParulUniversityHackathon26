@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Allow: /community
+Allow: /public/
+Disallow: /admin
+Disallow: /api/
+
+Sitemap: https://colombiator.vercel.app/sitemap.xml

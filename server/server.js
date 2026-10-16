@@ -22,27 +22,44 @@ import adminRoutes from './routes/admin.js';
 import communityRoutes from './routes/community.js';
 import uploadRoutes from './routes/upload.js';
 
+import { validateEnv } from './config/envCheck.js';
+
 dotenv.config();
+validateEnv();
 
 const app = express();
 const PORT = process.env.PORT || 5001;
-const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
+const clientUrl = (process.env.CLIENT_URL || 'http://localhost:5173').replace(/\/$/, '');
+
+const allowedOrigins = [
+  clientUrl,
+  'https://colombiator.vercel.app',
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'http://127.0.0.1:5173',
+];
+
+const isAllowedOrigin = (origin) => {
+  if (!origin) return true; // Direct API clients, curl, health probes, same-origin
+  const normalized = origin.replace(/\/$/, '');
+  if (allowedOrigins.includes(normalized)) return true;
+  if (/^https:\/\/colombiator(?:-[a-zA-Z0-9_-]+)?\.vercel\.app$/.test(normalized)) {
+    return true;
+  }
+  if (process.env.NODE_ENV !== 'production' && normalized.includes('localhost')) {
+    return true;
+  }
+  return false;
+};
 
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps, curl, or same-origin)
-      if (!origin) return callback(null, true);
-      if (
-        origin === clientUrl ||
-        origin.endsWith('.vercel.app') ||
-        origin.includes('localhost') ||
-        process.env.NODE_ENV !== 'production'
-      ) {
+      if (isAllowedOrigin(origin)) {
         return callback(null, true);
       }
-      return callback(null, true);
+      return callback(new Error(`Origin ${origin} is not allowed by CORS`));
     },
     credentials: true,
   })
@@ -76,7 +93,7 @@ app.use(async (req, res, next) => {
     req.path === '/api/health' ||
     req.path.endsWith('/health');
 
-  if (isHealthOrRoot) {
+  if (isHealthOrRoot || (process.env.NODE_ENV === 'test' && !process.env.TEST_WITH_DB)) {
     return next();
   }
   try {
@@ -119,12 +136,14 @@ app.use(errorHandler);
 // Only bind TCP port when executed directly as a standalone process (local dev, Docker)
 // In Vercel, the Express app is exported directly and Vercel manages the HTTP server lifecycle
 const isVercelRuntime = Boolean(process.env.VERCEL) || Boolean(process.env.AWS_LAMBDA_FUNCTION_NAME);
+const isTest = process.env.NODE_ENV === 'test';
 const isDirectRun =
   !isVercelRuntime &&
+  !isTest &&
   (process.argv[1] &&
     (process.argv[1].endsWith('server.js') ||
       process.argv[1].endsWith('nodemon') ||
-      process.argv[1].includes('server.js')));
+      process.argv[1].endsWith('/server.js')));
 
 if (isDirectRun) {
   connectDB()

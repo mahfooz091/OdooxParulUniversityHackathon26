@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import Trip from '../models/Trip.js';
 import Stop from '../models/Stop.js';
 import Budget from '../models/Budget.js';
@@ -9,6 +10,7 @@ import User from '../models/User.js';
 import { customAlphabet } from 'nanoid';
 
 const slugAlphabet = customAlphabet('abcdefghijklmnopqrstuvwxyz0123456789', 10);
+const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
 const refreshTripStatus = (trip) => {
   const now = new Date();
@@ -50,18 +52,28 @@ export const createTrip = async (req, res, next) => {
       isPublic,
       totalBudget,
     } = req.body;
-    if (!title || !startDate || !endDate) {
-      return res.status(400).json({ success: false, message: 'Title and dates are required' });
+    if (!title?.trim() || !startDate || !endDate) {
+      return res.status(400).json({ success: false, message: 'Title, start date, and end date are required' });
     }
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      return res.status(400).json({ success: false, message: 'Invalid start or end date format' });
+    }
+    if (start > end) {
+      return res.status(400).json({ success: false, message: 'Start date cannot be after end date' });
+    }
+    const sanitizedBudget = Math.max(0, Number(totalBudget) || 0);
+
     const tripData = {
       userId: req.user._id,
-      title,
+      title: title.trim(),
       description: description || '',
       startDate,
       endDate,
       coverPhoto: coverPhoto || '',
       isPublic: Boolean(isPublic),
-      totalBudget: Number(totalBudget) || 0,
+      totalBudget: sanitizedBudget,
     };
     if (tripData.isPublic) {
       tripData.publicSlug = slugAlphabet();
@@ -77,6 +89,9 @@ export const createTrip = async (req, res, next) => {
 
 export const getTripById = async (req, res, next) => {
   try {
+    if (!isValidObjectId(req.params.id)) {
+      return res.status(400).json({ success: false, message: 'Invalid trip ID format' });
+    }
     const trip = await Trip.findOne({
       _id: req.params.id,
       userId: req.user._id,
@@ -99,6 +114,9 @@ export const getTripById = async (req, res, next) => {
 
 export const updateTrip = async (req, res, next) => {
   try {
+    if (!isValidObjectId(req.params.id)) {
+      return res.status(400).json({ success: false, message: 'Invalid trip ID format' });
+    }
     let trip = await Trip.findOne({ _id: req.params.id, userId: req.user._id });
     if (!trip) {
       return res.status(404).json({ success: false, message: 'Trip not found' });
@@ -112,12 +130,25 @@ export const updateTrip = async (req, res, next) => {
       isPublic,
       totalBudget,
     } = req.body;
-    if (title !== undefined) trip.title = title;
+    if (title !== undefined) trip.title = title.trim();
     if (description !== undefined) trip.description = description;
+
+    const newStart = startDate ? new Date(startDate) : new Date(trip.startDate);
+    const newEnd = endDate ? new Date(endDate) : new Date(trip.endDate);
+    if (isNaN(newStart.getTime()) || isNaN(newEnd.getTime())) {
+      return res.status(400).json({ success: false, message: 'Invalid date format' });
+    }
+    if (newStart > newEnd) {
+      return res.status(400).json({ success: false, message: 'Start date cannot be after end date' });
+    }
     if (startDate) trip.startDate = startDate;
     if (endDate) trip.endDate = endDate;
+
     if (coverPhoto !== undefined) trip.coverPhoto = coverPhoto;
-    if (totalBudget !== undefined) trip.totalBudget = Number(totalBudget);
+    if (totalBudget !== undefined) {
+      const parsedBudget = Number(totalBudget);
+      trip.totalBudget = !isNaN(parsedBudget) && parsedBudget >= 0 ? parsedBudget : trip.totalBudget;
+    }
     if (isPublic !== undefined) {
       trip.isPublic = Boolean(isPublic);
       if (trip.isPublic && !trip.publicSlug) trip.publicSlug = slugAlphabet();
@@ -140,6 +171,9 @@ export const updateTrip = async (req, res, next) => {
 
 export const deleteTrip = async (req, res, next) => {
   try {
+    if (!isValidObjectId(req.params.id)) {
+      return res.status(400).json({ success: false, message: 'Invalid trip ID format' });
+    }
     const trip = await Trip.findOne({ _id: req.params.id, userId: req.user._id });
     if (!trip) {
       return res.status(404).json({ success: false, message: 'Trip not found' });
@@ -177,6 +211,9 @@ export const getPublicTripBySlug = async (req, res, next) => {
 
 export const duplicateTrip = async (req, res, next) => {
   try {
+    if (!isValidObjectId(req.params.id)) {
+      return res.status(400).json({ success: false, message: 'Invalid trip ID format' });
+    }
     const source = await Trip.findById(req.params.id).populate({
       path: 'stops',
       populate: [{ path: 'activities' }],

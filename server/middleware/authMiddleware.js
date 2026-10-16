@@ -1,8 +1,6 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
-const FALLBACK_SECRET = 'colombiator_jwt_secret_production_key_2026_secured';
-
 export const protect = async (req, res, next) => {
   let token = req.cookies?.token;
   if (!token && req.headers.authorization?.startsWith('Bearer')) {
@@ -12,7 +10,10 @@ export const protect = async (req, res, next) => {
     return res.status(401).json({ success: false, message: 'Not authorized, no token provided' });
   }
   try {
-    const secret = process.env.JWT_SECRET || FALLBACK_SECRET;
+    const secret = process.env.JWT_SECRET || (process.env.NODE_ENV !== 'production' ? 'dev_only_ephemeral_jwt_secret_not_for_prod' : null);
+    if (!secret) {
+      return res.status(500).json({ success: false, message: 'JWT_SECRET is not configured on the server' });
+    }
     const decoded = jwt.verify(token, secret);
     req.user = await User.findById(decoded.id).select('-password');
     if (!req.user) {

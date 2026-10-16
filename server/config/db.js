@@ -10,9 +10,10 @@ export const connectDB = async () => {
     return cachedPromise;
   }
 
-  const uri =
-    process.env.MONGO_URI ||
-    'mongodb+srv://mahfooz123:alam123@cluster0.tpfp1su.mongodb.net/traveloop';
+  const uri = process.env.MONGO_URI;
+  if (!uri) {
+    throw new Error('MONGO_URI is not defined in environment variables. Please configure MONGO_URI in project settings.');
+  }
 
   cachedPromise = mongoose
     .connect(uri, {
