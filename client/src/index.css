@@ -64,6 +64,13 @@
   .text-gradient-brand {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-teal-600 via-teal-500 to-cyan-600;
   }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
 
 .Toastify__toast--success {

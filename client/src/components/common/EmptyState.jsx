@@ -9,18 +9,18 @@ export default function EmptyState({
 }) {
   return (
     <div
-      className={`neu-card p-10 md:p-14 flex flex-col items-center justify-center text-center max-w-lg mx-auto ${className}`}
+      className={`neu-card p-8 sm:p-10 flex flex-col items-center justify-center text-center w-full ${className}`}
     >
-      <div className="w-16 h-16 rounded-2xl bg-[#F4FAFA] border border-[#E2EBEB] shadow-neu-inset flex items-center justify-center mb-5 text-teal-600">
-        <Icon className="w-8 h-8 text-teal-600" />
+      <div className="w-14 h-14 rounded-2xl bg-[#F4FAFA] border border-[#E2EBEB] shadow-neu-inset flex items-center justify-center mb-4 text-teal-600">
+        <Icon className="w-7 h-7 text-teal-600" />
       </div>
-      <h3 className="text-xl font-bold text-neu-navy mb-2 font-heading">{title}</h3>
+      <h3 className="text-lg sm:text-xl font-bold text-neu-navy mb-1.5 font-heading">{title}</h3>
       {description && (
-        <p className="text-slate-600 text-sm max-w-sm mb-6 leading-relaxed">
+        <p className="text-slate-600 text-xs sm:text-sm max-w-md mb-5 leading-relaxed">
           {description}
         </p>
       )}
-      {action && <div className="mt-1">{action}</div>}
+      {action && <div>{action}</div>}
     </div>
   );
 }

@@ -135,7 +135,15 @@ export default function DashboardPage() {
           )}
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-4">
+          <div>
+            <h2 className="text-xl font-bold tracking-tight text-neu-navy font-heading">
+              Trip Insights
+            </h2>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Live budget pulse & journey recommendations.
+            </p>
+          </div>
           {ongoing && budgetQ.data?.budget ? (
             <BudgetHighlight trip={ongoing} budget={budgetQ.data.budget} />
           ) : (
@@ -149,7 +157,7 @@ export default function DashboardPage() {
               </p>
               <Link
                 to="/trips/new"
-                className="inline-flex items-center justify-center w-full py-2 rounded-xl bg-white border border-[#E2EBEB] shadow-neu-btn text-xs font-semibold text-teal-800 hover:bg-[#F8FCFC] active:shadow-neu-btn-pressed transition-all"
+                className="inline-flex items-center justify-center w-full py-2.5 rounded-xl bg-white border border-[#E2EBEB] shadow-neu-btn text-xs font-semibold text-teal-800 hover:bg-[#F8FCFC] active:shadow-neu-btn-pressed transition-all"
               >
                 Start New Itinerary
               </Link>
