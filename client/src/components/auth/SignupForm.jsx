@@ -139,7 +139,18 @@ export default function SignupForm({ onSubmit, loading = false, serverError = ''
         disabled={loading}
       />
 
-      <div className="pt-3">
+      <div className="text-xs text-slate-500 leading-relaxed px-1">
+        By creating an account, you agree to our{' '}
+        <Link to="/terms-of-service" target="_blank" className="font-semibold text-teal-700 underline hover:text-teal-800">
+          Terms of Service
+        </Link>{' '}
+        and acknowledge our{' '}
+        <Link to="/privacy-policy" target="_blank" className="font-semibold text-teal-700 underline hover:text-teal-800">
+          Privacy Policy
+        </Link>.
+      </div>
+
+      <div className="pt-2">
         <ClayButton
           type="submit"
           variant="primary"

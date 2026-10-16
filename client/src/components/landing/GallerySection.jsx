@@ -31,7 +31,7 @@ export default function GallerySection() {
             >
               <img
                 src={src}
-                alt=""
+                alt={`Travel destination scenery ${i + 1}`}
                 className="w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 loading="lazy"
               />

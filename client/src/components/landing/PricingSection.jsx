@@ -1,115 +1,100 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Check } from 'lucide-react';
+import { Check, Sparkles, ArrowRight, ShieldCheck, Heart } from 'lucide-react';
 
-const plans = [
-  {
-    name: 'Starter',
-    price: '0',
-    period: 'forever',
-    blurb: 'Essential planning for solo travelers.',
-    features: ['Trip workspace', 'Basic itinerary', 'Packing lists', 'Community browse'],
-    cta: 'Get started',
-    href: '/signup',
-    featured: false,
-  },
-  {
-    name: 'Colombiator Pro',
-    price: '12',
-    period: '/ month',
-    blurb: 'AI depth, budgets, and collaboration.',
-    features: [
-      'AI itinerary + rewrites',
-      'Smart budgets & charts',
-      'Map routes & stops',
-      'Notes & collaboration',
-      'Priority sync',
-    ],
-    cta: 'Start free trial',
-    href: '/signup',
-    featured: true,
-  },
-  {
-    name: 'Teams',
-    price: '29',
-    period: '/ month',
-    blurb: 'For agencies and travel curators.',
-    features: ['All Pro features', 'Admin insights', 'Shared libraries', 'Dedicated support'],
-    cta: 'Contact sales',
-    href: '/signup',
-    featured: false,
-  },
+const openFeatures = [
+  'Unlimited multi-stop itineraries & custom days',
+  'Interactive Leaflet route maps & stop waypoints',
+  'Comprehensive expense tracking & visual budget charts',
+  'Categorized packing checklists with progress trackers',
+  'Private travel notes, flight vaults & confirmation codes',
+  'Public community sharing & one-click itinerary cloning',
+  'Full account data export & self-service deletion',
+  'Zero credit card required — no paywalls or trials',
 ];
 
 export default function PricingSection() {
   return (
-    <section id="pricing" className="scroll-mt-24 py-20 md:py-28 bg-slate-50/80">
-      <div className="mx-auto max-w-7xl px-4 md:px-6">
+    <section id="pricing" className="scroll-mt-24 py-20 md:py-28 bg-slate-50/80 border-y border-slate-100">
+      <div className="mx-auto max-w-5xl px-4 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="text-center max-w-2xl mx-auto mb-14"
         >
-          <p className="font-heading text-sm font-semibold uppercase tracking-widest text-teal-600">
-            Pricing
-          </p>
-          <h2 className="mt-3 font-display text-3xl font-semibold text-navy md:text-4xl">
-            Simple plans — upgrade when you’re ready
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-teal-100/80 text-teal-800 border border-teal-200/60 mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-teal-600" />
+            100% Free & Open Access
+          </span>
+          <h2 className="mt-2 font-display text-3xl font-semibold text-navy md:text-4xl">
+            No subscriptions. No paywalls.
           </h2>
-          <p className="mt-4 text-lg text-slate-600">
-            Start free. Pro unlocks the full AI planning suite your trips deserve.
+          <p className="mt-4 text-lg text-slate-600 leading-relaxed">
+            Colombiator was built for the <em>Odoo &times; Parul University Hackathon 2026</em>. Every planning tool, budget chart, and collaborative route is completely free for all travelers.
           </p>
         </motion.div>
 
-        <div className="grid gap-8 lg:grid-cols-3 lg:gap-6">
-          {plans.map((plan) => (
-            <motion.div
-              key={plan.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className={`relative flex flex-col rounded-3xl border p-8 shadow-card transition-all hover:shadow-xl ${
-                plan.featured
-                  ? 'border-teal-300 bg-white ring-2 ring-teal-400/30 scale-[1.02] z-[1]'
-                  : 'border-slate-100 bg-white'
-              }`}
-            >
-              {plan.featured && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-teal-500 to-cyan-500 px-4 py-1 text-xs font-bold text-white shadow-md">
-                  Most popular
-                </span>
-              )}
-              <h3 className="font-heading text-xl font-bold text-navy">{plan.name}</h3>
-              <p className="mt-2 text-sm text-slate-600">{plan.blurb}</p>
-              <p className="mt-6 font-display text-4xl font-bold text-navy">
-                ${plan.price}
-                <span className="text-lg font-normal text-slate-500">{plan.period}</span>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="relative rounded-3xl border-2 border-teal-300/80 bg-white p-8 md:p-12 shadow-xl ring-4 ring-teal-500/10"
+        >
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-slate-100 pb-8">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full bg-teal-50 px-3 py-1 text-xs font-bold text-teal-800 border border-teal-200/50">
+                <Heart className="w-3.5 h-3.5 text-teal-600" />
+                Community Hackathon Edition
+              </div>
+              <h3 className="mt-3 font-heading text-2xl md:text-3xl font-bold text-navy">
+                Complete Travel Planning Suite
+              </h3>
+              <p className="mt-2 text-sm text-slate-600 max-w-xl">
+                Full access to all itinerary studio tools, interactive maps, financial budget management, and community sharing.
               </p>
-              <ul className="mt-8 flex-1 space-y-3">
-                {plan.features.map((f) => (
-                  <li key={f} className="flex gap-2 text-sm text-slate-700">
-                    <Check className="h-5 w-5 shrink-0 text-teal-500" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              <Link
-                to={plan.href}
-                className={`mt-8 inline-flex min-h-[48px] items-center justify-center rounded-2xl px-6 text-center font-semibold transition-all active:scale-[0.98] ${
-                  plan.featured
-                    ? 'bg-gradient-to-r from-teal-500 to-cyan-500 text-white shadow-glow hover:brightness-110'
-                    : 'border-2 border-slate-200 bg-white text-navy hover:border-teal-300 hover:bg-teal-50/50'
-                }`}
-              >
-                {plan.cta}
-              </Link>
-            </motion.div>
-          ))}
-        </div>
-        <p className="mt-10 text-center text-sm text-slate-500">
-          Billing is illustrative — connect your product catalog when you launch payments.
-        </p>
+            </div>
+
+            <div className="text-left md:text-right shrink-0">
+              <p className="font-display text-5xl font-bold text-navy">
+                $0
+              </p>
+              <p className="text-sm font-semibold text-teal-700 mt-1">
+                Forever Free · No Hidden Fees
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-8">
+            <h4 className="font-heading text-sm font-bold uppercase tracking-wider text-slate-400 mb-4">
+              What&rsquo;s included in your free account:
+            </h4>
+            <div className="grid sm:grid-cols-2 gap-3.5">
+              {openFeatures.map((feature) => (
+                <div key={feature} className="flex items-start gap-2.5 text-sm text-slate-700">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-teal-100 text-teal-700 mt-0.5">
+                    <Check className="h-3.5 w-3.5 stroke-[2.5]" />
+                  </span>
+                  <span>{feature}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-10 pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-2 text-xs text-slate-500">
+              <ShieldCheck className="w-4 h-4 text-teal-600 shrink-0" />
+              <span>Full privacy compliance under DPDPA 2023 & GDPR</span>
+            </div>
+            <Link
+              to="/signup"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-teal-500 via-cyan-500 to-teal-600 px-8 py-3.5 text-sm font-semibold text-white shadow-glow hover:brightness-105 active:scale-[0.98] transition-all"
+            >
+              Start Planning Free
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

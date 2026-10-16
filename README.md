@@ -31,6 +31,7 @@
 - [Complete User Guide](#-complete-user-guide)
 - [Technology Stack](#-technology-stack)
 - [Project Architecture](#-project-architecture)
+- [Legal & Trust Center (DPDPA 2023 & GDPR)](#-legal--trust-center-dpdpa-2023--gdpr)
 - [Local Development Setup](#-local-development-setup)
 - [Database Seeding](#-database-seeding)
 - [Deploying on Vercel](#-deploying-on-vercel)
@@ -229,29 +230,58 @@ colombiator/
 ├── client/                  # Frontend Single Page Application (React + Vite)
 │   ├── public/              # Static assets (logo.png, favicon.svg, robots.txt, sitemap.xml)
 │   ├── src/
-│   │   ├── components/      # UI components (auth, dashboard, itinerary, layout)
+│   │   ├── components/      # UI components (auth, dashboard, itinerary, layout, legal)
+│   │   │   ├── common/      # CookieBanner, Footer, Navbar, Modal
+│   │   │   └── legal/       # LegalLayout, shared trust UI
 │   │   ├── context/         # AuthContext & global state
 │   │   ├── pages/           # Application views (Dashboard, Cities, Trips, Community)
+│   │   │   └── legal/       # Privacy, Terms, Cookie, DPDPA, Data Deletion, Acceptable Use, Contact
 │   │   ├── services/        # Axios API clients
 │   │   └── utils/           # Helper functions & constants
 │   ├── package.json
 │   └── vite.config.js
 ├── server/                  # Backend REST API (Express.js)
 │   ├── config/              # MongoDB connection, envCheck, Cloudinary config
-│   ├── controllers/         # Business logic for all API endpoints
-│   ├── middleware/          # JWT protect, upload, errorHandler
+│   ├── controllers/         # Business logic for all API endpoints (auth, trips, contact, etc.)
+│   ├── middleware/          # JWT protect, upload, errorHandler, rateLimiters
 │   ├── models/              # Mongoose schemas (User, Trip, City, Activity, Stop, Budget)
-│   ├── routes/              # Express route declarations
-│   ├── tests/               # Automated unit, integration, and security tests
+│   ├── routes/              # Express route declarations (including /api/contact)
+│   ├── tests/               # Automated unit, integration, and security tests (Jest + Supertest)
 │   ├── utils/               # Seed data & JWT generator
+│   ├── dist/                # Pre-bundled production server for Vercel service runtime
 │   ├── package.json
 │   └── server.js            # Express app configuration & middleware
 ├── screenshots/             # Production application screenshots
 ├── .env.example             # Safe placeholder template for environment variables
 ├── package.json             # Root unified package configuration
-├── vercel.json              # Vercel deployment & routing configuration
+├── vercel.json              # Vercel multi-service deployment & rewrite configuration
 └── README.md                # Project documentation & user guide
 ```
+
+---
+
+## 📜 Legal & Trust Center (DPDPA 2023 & GDPR)
+
+Colombiator is built on strict transparency, digital privacy, and ethical open access for travelers worldwide:
+
+- **Indian Digital Personal Data Protection Act (DPDPA 2023) Compliance**: Explicit data principal rights, purpose limitation, and statutory Grievance Redressal mechanism.
+- **GDPR & International Privacy Alignment**: Data portability, clear subprocessors disclosure (Vercel, MongoDB Atlas, Cloudinary), and zero non-essential cookie tracking without consent.
+- **Self-Service & Assisted Data Deletion (`/data-deletion`)**: One-click complete account and itinerary eradication via `/profile` (Danger Zone) with automated cascade deletion.
+- **Interactive Cookie Consent System**: Granular preference controls (Essential, Analytics, Functional) persistent across sessions, with instant reset via the footer anytime.
+- **Truth in Advertising**: 100% Free Open Access Hackathon Edition. No fake ratings, no artificial tiers, and no fabricated reviews.
+
+### Legal Routes Directory:
+| Canonical Route | Document Title | Description & Compliance Scope |
+| :--- | :--- | :--- |
+| [`/legal`](https://colombiator.vercel.app/legal) | **Trust & Legal Center** | Central gateway to all governance, security, and privacy documents |
+| [`/privacy-policy`](https://colombiator.vercel.app/privacy-policy) | **Privacy Policy** | Comprehensive DPDPA 2023 & GDPR disclosure, subprocessor list, data rights |
+| [`/terms-of-service`](https://colombiator.vercel.app/terms-of-service) | **Terms of Service** | Fair use, user content ownership, hackathon access terms, jurisdiction |
+| [`/cookie-policy`](https://colombiator.vercel.app/cookie-policy) | **Cookie Policy** | Transparent inventory of local storage keys and interactive consent changer |
+| [`/acceptable-use`](https://colombiator.vercel.app/acceptable-use) | **Acceptable Use Policy** | Content standards, prohibited actions, security scanning boundaries |
+| [`/data-deletion`](https://colombiator.vercel.app/data-deletion) | **Data Deletion Instructions** | Step-by-step account removal, database cascade details, and offline request flow |
+| [`/community-guidelines`](https://colombiator.vercel.app/community-guidelines) | **Community Guidelines** | Responsible route sharing, leave-no-trace ethics, safe itinerary cloning |
+| [`/security`](https://colombiator.vercel.app/security) | **Security Center** | Encryption standards, password hashing, vulnerability disclosure policy |
+| [`/contact`](https://colombiator.vercel.app/contact) & [`/help`](https://colombiator.vercel.app/help) | **Contact & Support** | Live rate-limited support form and direct officer contact channels |
 
 ---
 
@@ -393,6 +423,8 @@ All backend routes are accessible under `/api`:
 | `GET` | `/api/community` | Public | Fetch published community trips |
 | `POST` | `/api/community/:id/clone` | Private | Clone a public community trip into your trips |
 | `POST` | `/api/upload` | Private | Upload image (Cloudinary / Data URI fallback) |
+| `POST` | `/api/contact` | Public | Submit contact / support message (rate-limited) |
+| `DELETE` | `/api/users/profile` | Private | Delete account & cascade delete all personal itineraries |
 
 ---
 

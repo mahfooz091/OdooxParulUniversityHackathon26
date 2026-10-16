@@ -21,6 +21,7 @@ import userRoutes from './routes/users.js';
 import adminRoutes from './routes/admin.js';
 import communityRoutes from './routes/community.js';
 import uploadRoutes from './routes/upload.js';
+import contactRoutes from './routes/contact.js';
 
 import { validateEnv } from './config/envCheck.js';
 
@@ -125,6 +126,7 @@ mountRoute('users', userRoutes);
 mountRoute('admin', adminRoutes);
 mountRoute('community', communityRoutes);
 mountRoute('upload', uploadRoutes);
+mountRoute('contact', contactRoutes);
 
 app.use(['/api/*', '/*'], (req, res) => {
   res.status(404).json({ success: false, message: 'API route not found' });

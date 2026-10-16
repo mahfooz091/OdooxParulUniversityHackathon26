@@ -56,7 +56,7 @@ export default function HeroSection() {
           <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-2xl shadow-teal-900/10">
             <img
               src={UNSPLASH.hero}
-              alt="Colombiator Destination"
+              alt="Colombiator travel planning and itinerary preview"
               className="h-full w-full object-cover"
               loading="eager"
             />

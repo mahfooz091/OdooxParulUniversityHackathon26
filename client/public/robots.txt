@@ -1,8 +1,20 @@
 User-agent: *
 Allow: /
 Allow: /community
-Allow: /public/
+Allow: /share/
+Allow: /legal
+Allow: /privacy-policy
+Allow: /terms-of-service
+Allow: /cookie-policy
+Allow: /acceptable-use
+Allow: /data-deletion
+Allow: /community-guidelines
+Allow: /security
+Allow: /contact
 Disallow: /admin
+Disallow: /dashboard
+Disallow: /trips
+Disallow: /profile
 Disallow: /api/
 
 Sitemap: https://colombiator.vercel.app/sitemap.xml

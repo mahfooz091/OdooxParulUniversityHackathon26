@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Input from '../components/common/Input.jsx';
 import Button from '../components/common/Button.jsx';
 import Card from '../components/common/Card.jsx';
@@ -215,10 +216,18 @@ export default function ProfilePage() {
         </Button>
       </Card>
 
-      <Card className="p-8 border border-red-100 space-y-4">
-        <h2 className="font-semibold text-lg text-error">Danger zone</h2>
+      <Card className="p-8 border border-red-200/80 bg-red-50/20 space-y-4">
+        <div>
+          <h2 className="font-semibold text-lg text-error">Danger Zone · Account Deletion</h2>
+          <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+            Permanently delete your user profile and all associated data records (including all trips, itineraries, packing checklists, and private notes). This action cannot be undone. Read our{' '}
+            <Link to="/data-deletion" className="text-teal-700 underline font-semibold">
+              Data Deletion & Retention Policy
+            </Link>.
+          </p>
+        </div>
         <Button variant="danger" type="button" onClick={() => setDelOpen(true)}>
-          Delete account
+          Delete Account Permanently
         </Button>
       </Card>
 

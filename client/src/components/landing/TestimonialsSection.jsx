@@ -1,98 +1,74 @@
-import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Quote, Star } from 'lucide-react';
-import { TESTIMONIALS } from '../../data/landingContent.js';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Compass, Calendar, Wallet, Share2, ArrowRight } from 'lucide-react';
+import { WORKFLOW_SHOWCASE } from '../../data/landingContent.js';
+
+const icons = [Calendar, Wallet, Share2];
 
 export default function TestimonialsSection() {
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const t = setInterval(() => setIndex((i) => (i + 1) % TESTIMONIALS.length), 6000);
-    return () => clearInterval(t);
-  }, []);
-
-  const item = TESTIMONIALS[index];
-
   return (
-    <section id="reviews" className="scroll-mt-24 py-20 md:py-28">
-      <div className="mx-auto max-w-4xl px-4 md:px-6">
+    <section id="workflow" className="scroll-mt-24 py-20 md:py-28 bg-white">
+      <div className="mx-auto max-w-7xl px-4 md:px-6">
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center max-w-2xl mx-auto mb-16"
         >
-          <p className="font-heading text-sm font-semibold uppercase tracking-widest text-teal-600">
-            Reviews
-          </p>
-          <h2 className="mt-3 font-display text-3xl font-semibold text-navy md:text-4xl">
-            Loved by explorers worldwide
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-teal-50 text-teal-700 border border-teal-100 mb-3">
+            <Compass className="w-3.5 h-3.5 text-teal-600" />
+            Travel Planning Loop
+          </span>
+          <h2 className="font-display text-3xl font-semibold text-navy md:text-4xl">
+            Designed for real-world exploration
           </h2>
+          <p className="mt-4 text-lg text-slate-600 leading-relaxed">
+            See how Colombiator streamlines complex travel logistics from preliminary itinerary drafting to departure day.
+          </p>
         </motion.div>
 
-        <div className="relative rounded-3xl border border-slate-100 bg-white p-8 shadow-xl md:p-12">
-          <Quote className="absolute right-8 top-8 h-10 w-10 text-teal-200/80" />
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={item.name}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.35 }}
-              className="text-center md:text-left md:pl-4"
-            >
-              <div className="flex justify-center md:justify-start gap-1 mb-4">
-                {[...Array(item.rating)].map((_, i) => (
-                  <Star key={i} className="h-5 w-5 fill-amber-400 text-amber-400" />
-                ))}
-              </div>
-              <p className="text-lg leading-relaxed text-slate-700 md:text-xl">“{item.quote}”</p>
-              <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:items-center sm:justify-center md:justify-start">
-                <img
-                  src={item.avatar}
-                  alt=""
-                  className="h-14 w-14 rounded-full object-cover ring-4 ring-teal-100"
-                  loading="lazy"
-                />
-                <div className="text-center md:text-left">
-                  <p className="font-heading font-semibold text-navy">{item.name}</p>
-                  <p className="text-sm text-slate-500">{item.role}</p>
-                </div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
+        <div className="grid md:grid-cols-3 gap-8">
+          {WORKFLOW_SHOWCASE.map((step, i) => {
+            const Icon = icons[i] || Compass;
+            return (
+              <motion.div
+                key={step.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="flex flex-col justify-between rounded-3xl border border-slate-100 bg-slate-50/60 p-8 shadow-card transition-all hover:bg-white hover:border-teal-200/80 hover:shadow-xl"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-6">
+                    <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-teal-500 to-cyan-500 text-white shadow-md">
+                      <Icon className="h-6 w-6" />
+                    </span>
+                    <span className="rounded-full bg-teal-50 px-3 py-1 text-xs font-bold text-teal-800 border border-teal-100">
+                      {step.badge}
+                    </span>
+                  </div>
 
-          <div className="mt-10 flex items-center justify-center gap-4">
-            <button
-              type="button"
-              aria-label="Previous"
-              onClick={() => setIndex((i) => (i - 1 + TESTIMONIALS.length) % TESTIMONIALS.length)}
-              className="rounded-full border border-slate-200 p-3 transition-colors hover:bg-teal-50"
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </button>
-            <div className="flex gap-2">
-              {TESTIMONIALS.map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  aria-label={`Go to slide ${i + 1}`}
-                  onClick={() => setIndex(i)}
-                  className={`h-2 rounded-full transition-all ${
-                    i === index ? 'w-8 bg-teal-500' : 'w-2 bg-slate-300'
-                  }`}
-                />
-              ))}
-            </div>
-            <button
-              type="button"
-              aria-label="Next"
-              onClick={() => setIndex((i) => (i + 1) % TESTIMONIALS.length)}
-              className="rounded-full border border-slate-200 p-3 transition-colors hover:bg-teal-50"
-            >
-              <ChevronRight className="h-5 w-5" />
-            </button>
-          </div>
+                  <h3 className="font-heading text-xl font-bold text-navy">
+                    {step.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                    {step.desc}
+                  </p>
+                </div>
+
+                <div className="mt-8 pt-6 border-t border-slate-200/60">
+                  <Link
+                    to={step.actionLink}
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-700 hover:text-teal-900 transition-colors"
+                  >
+                    {step.actionText}
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>

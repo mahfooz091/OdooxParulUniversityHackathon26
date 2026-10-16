@@ -23,6 +23,19 @@ const AdminDashboardPage = lazy(() => import('./pages/AdminDashboardPage.jsx'));
 const PublicItineraryPage = lazy(() => import('./pages/PublicItineraryPage.jsx'));
 const MainLayout = lazy(() => import('./components/layout/MainLayout.jsx'));
 
+// Legal & Trust Center Pages
+const LegalIndexPage = lazy(() => import('./pages/legal/LegalIndexPage.jsx'));
+const PrivacyPolicyPage = lazy(() => import('./pages/legal/PrivacyPolicyPage.jsx'));
+const TermsOfServicePage = lazy(() => import('./pages/legal/TermsOfServicePage.jsx'));
+const CookiePolicyPage = lazy(() => import('./pages/legal/CookiePolicyPage.jsx'));
+const AcceptableUsePage = lazy(() => import('./pages/legal/AcceptableUsePage.jsx'));
+const DataDeletionPage = lazy(() => import('./pages/legal/DataDeletionPage.jsx'));
+const CommunityGuidelinesPage = lazy(() => import('./pages/legal/CommunityGuidelinesPage.jsx'));
+const SecurityPage = lazy(() => import('./pages/legal/SecurityPage.jsx'));
+const ContactSupportPage = lazy(() => import('./pages/legal/ContactSupportPage.jsx'));
+
+import CookieBanner from './components/common/CookieBanner.jsx';
+
 function HomeRoute() {
   const { user, loading } = useAuth();
   if (loading) return <Loader />;
@@ -63,6 +76,18 @@ export default function App() {
       <Routes>
         <Route path="/share/:slug" element={<PublicItineraryPage />} />
 
+        {/* Legal & Trust Center Documentation Routes */}
+        <Route path="/legal" element={<LegalIndexPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+        <Route path="/cookie-policy" element={<CookiePolicyPage />} />
+        <Route path="/acceptable-use" element={<AcceptableUsePage />} />
+        <Route path="/data-deletion" element={<DataDeletionPage />} />
+        <Route path="/community-guidelines" element={<CommunityGuidelinesPage />} />
+        <Route path="/security" element={<SecurityPage />} />
+        <Route path="/contact" element={<ContactSupportPage />} />
+        <Route path="/help" element={<ContactSupportPage />} />
+
         <Route path="/" element={<HomeRoute />} />
 
         <Route element={<GuestRoute />}>
@@ -94,6 +119,7 @@ export default function App() {
 
         <Route path="*" element={<CatchAllRoute />} />
       </Routes>
+      <CookieBanner />
     </Suspense>
   );
 }

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { motion } from 'framer-motion';
 import { Heart, Bookmark, Share2 } from 'lucide-react';
@@ -47,7 +47,12 @@ export default function CommunityPage() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Community trips</h1>
-          <p className="text-muted mt-1">Discover public itineraries from fellow travelers.</p>
+          <p className="text-muted mt-1">
+            Discover public itineraries from fellow travelers. Read our{' '}
+            <Link to="/community-guidelines" className="text-teal-700 underline font-semibold">
+              Community Guidelines
+            </Link>.
+          </p>
         </div>
         <div className="flex gap-2">
           <Button variant={tab === 'recent' ? 'primary' : 'outline'} type="button" onClick={() => setTab('recent')}>

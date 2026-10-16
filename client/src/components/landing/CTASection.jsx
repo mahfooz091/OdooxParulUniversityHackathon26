@@ -18,11 +18,10 @@ export default function CTASection() {
           </div>
           <div className="relative z-10">
             <h2 className="font-display text-3xl font-semibold text-white md:text-4xl lg:text-5xl">
-              Start Your Next Adventure Today
+              Start Your Next Adventure with Colombiator
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-lg text-teal-50/95">
-              Join thousands of travelers who plan smarter with AI — your journey begins in
-              minutes.
+              Build collaborative multi-stop itineraries, manage expenses transparently, and explore with confidence — 100% free.
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
